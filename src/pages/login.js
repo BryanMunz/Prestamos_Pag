@@ -10,6 +10,8 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import styles from '../style/register.module.css'
+import { useForm } from '@/hooks/useForm'
 
 const Login = () => {
     const router = useRouter()
@@ -19,11 +21,19 @@ const Login = () => {
         redirectIfAuthenticated: '/dashboard',
     })
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [shouldRemember, setShouldRemember] = useState(false)
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
+
+    const { email, password, remember, onInputChange, onSubmitForm } = useForm(
+        {
+            email: '',
+            password: '',
+            remember: false,
+            setErrors,
+            setStatus,
+        },
+        login,
+    )
 
     useEffect(() => {
         if (router.query.reset?.length > 0 && errors.length === 0) {
@@ -33,99 +43,112 @@ const Login = () => {
         }
     })
 
-    const submitForm = async event => {
-        event.preventDefault()
-
-        login({
-            email,
-            password,
-            remember: shouldRemember,
-            setErrors,
-            setStatus,
-        })
-    }
 
     return (
         <GuestLayout>
-            <AuthCard
-                logo={
-                    <Link href="/">
-                        <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-                    </Link>
-                }>
-                {/* Session Status */}
-                <AuthSessionStatus className="mb-4" status={status} />
+            {/* Session Status */}
+            <AuthSessionStatus className="mb-4" status={status} />
 
-                <form onSubmit={submitForm}>
-                    {/* Email Address */}
-                    <div>
-                        <Label htmlFor="email">Email</Label>
+            <div className="vh-100">
+                <div className={`container h-100`}>
+                    <div
+                        className={`row d-flex justify-content-center align-items-center h-100`}>
+                        <div className="col-12 col-md-8 col-lg-6 col-xl-4 shadow p-5 text-center">
+                            <div>
+                                <ApplicationLogo width="140px" />
+                            </div>
+                            <h2 className="fs-4 mt-3 mb-5 text-black-50 fw-normal">Iniciar Sesión</h2>
+                            <form onSubmit={ e => onSubmitForm(e) }>
+                                {/* Email Address */}
+                                <div className="pt-3">
+                                    <Input
+                                        id="email"
+                                        name='email'
+                                        type="email"
+                                        value={email}
+                                        className="form-control"
+                                        placeholder="Email"
+                                        onChange={onInputChange}
+                                        required
+                                        autoFocus
+                                    />
 
-                        <Input
-                            id="email"
-                            type="email"
-                            value={email}
-                            className="block mt-1 w-full"
-                            onChange={event => setEmail(event.target.value)}
-                            required
-                            autoFocus
-                        />
+                                    <InputError
+                                        messages={errors.email}
+                                        className="mt-2"
+                                    />
+                                </div>
 
-                        <InputError messages={errors.email} className="mt-2" />
+                                {/* Password */}
+                                <div className="mt-4">
+                                    <Input
+                                        id="password"
+                                        name='password'
+                                        type="password"
+                                        value={password}
+                                        className="form-control"
+                                        placeholder="Contraseña"
+                                        onChange={onInputChange}
+                                        required
+                                        autoComplete="current-password"
+                                    />
+
+                                    <InputError
+                                        messages={errors.password}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                {/* Remember Me */}
+                                <div className="form-check mt-3 float-start">
+                                    <label
+                                        htmlFor="remember_me"
+                                        className="form-check-label">
+                                        <input
+                                            id="remember_me"
+                                            type="checkbox"
+                                            name="remember"
+                                            className="form-check-input"
+                                            onChange={onInputChange}
+                                        />
+
+                                        <span className="ml-2 text-sm text-gray-600">
+                                            Remember me
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div className="mt-5">
+                                    <button
+                                        type="submit"
+                                        className={`${styles.btn} mt-4`}>
+                                        Iniciar Sessión
+                                    </button>
+                                </div>
+
+                                <div className="mt-4">
+                                    <Link
+                                        href="/forgot-password"
+                                        className={`${styles.links}`}>
+                                        ¿Olvidaste tu contraseña?
+                                    </Link>
+                                </div>
+
+                                <div className="mt-2">
+                                    <p>
+                                        ¿No tienes una cuenta?
+                                        <Link
+                                            href={'/register'}
+                                            className={`${styles.links} ms-2`}>
+                                            Registrate aquí
+                                        </Link>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-
-                    {/* Password */}
-                    <div className="mt-4">
-                        <Label htmlFor="password">Password</Label>
-
-                        <Input
-                            id="password"
-                            type="password"
-                            value={password}
-                            className="block mt-1 w-full"
-                            onChange={event => setPassword(event.target.value)}
-                            required
-                            autoComplete="current-password"
-                        />
-
-                        <InputError
-                            messages={errors.password}
-                            className="mt-2"
-                        />
-                    </div>
-
-                    {/* Remember Me */}
-                    <div className="block mt-4">
-                        <label
-                            htmlFor="remember_me"
-                            className="inline-flex items-center">
-                            <input
-                                id="remember_me"
-                                type="checkbox"
-                                name="remember"
-                                className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={event =>
-                                    setShouldRemember(event.target.checked)
-                                }
-                            />
-
-                            <span className="ml-2 text-sm text-gray-600">
-                                Remember me
-                            </span>
-                        </label>
-                    </div>
-
-                    <div className="flex items-center justify-end mt-4">
-                        <Link
-                            href="/forgot-password"
-                            className="underline text-sm text-gray-600 hover:text-gray-900">
-                            Forgot your password?
-                        </Link>
-
-                        <Button className="ml-3">Login</Button>
-                    </div>
-                </form>
-            </AuthCard>
+                </div>
+            </div>
         </GuestLayout>
     )
 }
