@@ -1,15 +1,9 @@
-import ApplicationLogo from '@/components/ApplicationLogo'
-import Dropdown from '@/components/Dropdown'
 import Link from 'next/link'
-import NavLink from '@/components/NavLink'
-import ResponsiveNavLink, {
-    ResponsiveNavButton,
-} from '@/components/ResponsiveNavLink'
-import { DropdownButton } from '@/components/DropdownLink'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import styles from '../../style/navigation.module.css';
+import styles from '../../style/navigation.module.css'
+import DropdownLink from '../DropdownLink'
 
 const Navigation = ({ user }) => {
     const router = useRouter()
@@ -19,10 +13,11 @@ const Navigation = ({ user }) => {
     const [open, setOpen] = useState(false)
 
     return (
-        <nav className={`${styles.nav} ${styles.shadow} navbar navbar-expand-lg bg-white`}>
+        <nav
+            className={`${styles.nav} ${styles.shadow} navbar nav-pills navbar-expand-lg bg-white`}>
             <div className="container-fluid">
                 <Link className="navbar-brand ms-3" href="#">
-                    <img src='/images/logo/logo_x_bio.png' width={'30px'}/>
+                    <img src="/images/logo/logo_x_bio.png" width={'30px'} />
                 </Link>
                 <button
                     className="navbar-toggler"
@@ -38,31 +33,81 @@ const Navigation = ({ user }) => {
                     className="collapse navbar-collapse"
                     id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        {/* <li className="nav-item">
-                            <a
-                                className="nav-link active"
-                                aria-current="page"
-                                href="#">
-                                Home
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">
-                                Link
-                            </a>
-                        </li>
+                        {user?.wizard > 0 ? (
+                            <>
+                                <li
+                                    className={`nav-item mx-4 px-2 py-1 rounded-pill ${styles.item}`}>
+                                    <a
+                                        className="nav-link active rounded-pill d-inline-block px-4 text-white"
+                                        aria-current="page"
+                                        href="#">
+                                        Pacientes
+                                    </a>
+                                </li>
+                                <li
+                                    className={`nav-item mx-4 px-2 py-1 rounded-pill ${styles.item}`}>
+                                    <a className="nav-link" href="#">
+                                        Ejercicios
+                                    </a>
+                                </li>
 
-                        <li className="nav-item">
-                            <Link href={'/login'}
-                                className="nav-link disabled"
-                                aria-disabled="true">
-                                Disabled
-                            </Link>
-                        </li> */}
+                                <li
+                                    className={`nav-item mx-4 px-2 py-1 rounded-pill ${styles.item}`}>
+                                    <Link
+                                        href={'/login'}
+                                        className="nav-link "
+                                        aria-disabled="true">
+                                        Configuración
+                                    </Link>
+                                </li>
+                                <li
+                                    className={`nav-item mx-4 px-2 py-1 rounded-pill ${styles.item}`}>
+                                    <Link
+                                        href={'/login'}
+                                        className="nav-link "
+                                        aria-disabled="true">
+                                        Centro de ayuda
+                                    </Link>
+                                </li>
+                            </>
+                        ) : (
+                            ''
+                        )}
                     </ul>
-                    <button className='btn btn-outline-danger' onClick={logout}>
-                        Cerrar Sessión
-                    </button>
+                    {user?.wizard == 0 ? (
+                        <button
+                            className="btn btn-outline-danger"
+                            onClick={logout}>
+                            Cerrar Sessión
+                        </button>
+                    ) : (
+                        <ul className="navbar-nav me-5 pe-3 mb-2 mb-lg-0">
+                            <li className="nav-item dropdown float-end mx-4 px-2 py-1">
+                                <a
+                                    className="nav-link dropdown-toggle"
+                                    href="#"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <div className="d-inline-block me-2 rounded-circle">
+                                        <img
+                                            src="/images/doctor/default.jpg"
+                                            width="30px"
+                                            className="rounded-circle"
+                                        />
+                                    </div>
+                                    {user?.name}
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li onClick={logout}>
+                                        <a className="dropdown-item" href="#">
+                                            Cerrar sessión
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    )}
                 </div>
             </div>
         </nav>

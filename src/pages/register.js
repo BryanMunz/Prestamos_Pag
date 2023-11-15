@@ -89,7 +89,7 @@ const Register = () => {
                                     <i
                                         className="fa fa-check-circle-o text-info"
                                         aria-hidden="true"></i>{' '}
-                                    Aplicación web y android para pacientes
+                                    Aplicación web y aplicación para móvil para pacientes
                                 </p>
                                 <h4>¿Mis datos estan seguros?</h4>
                                 <p className="small">

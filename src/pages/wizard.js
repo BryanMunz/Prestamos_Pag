@@ -1,4 +1,3 @@
-import AppLayout from '@/components/Layouts/AppLayout'
 import ProgressRegistration from '@/components/ProgressRegistration'
 import { useAuth } from '@/hooks/auth'
 import { useForm } from '@/hooks/useForm'

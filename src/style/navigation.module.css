@@ -1,3 +1,8 @@
 .nav.shadow{
     box-shadow: 0px 1px 9px -5px #00000065;
 }
+
+.item:hover {
+    /* background-color: #157FFB; */
+    
+}

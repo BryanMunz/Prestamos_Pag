@@ -5,7 +5,7 @@ export const useForm = (initialForm = {}, submit) => {
     const [form, setForm] = useState(initialForm)
 
     const onInputChange = ({ target }) => {
-        const { name, value } = target;
+        const { name, value } = target
         setForm({
             ...form,
             [name]: value,
@@ -13,27 +13,31 @@ export const useForm = (initialForm = {}, submit) => {
     }
 
     const onFileChange = ({ target }) => {
-        
-        const { name, files } = target;
+        const { name, files } = target
         setForm({
             ...form,
             [name]: files[0],
-        });
+        })
     }
 
-    const onSubmitForm = (event) => {
+    const onSubmitForm = event => {
         event.preventDefault()
 
         submit({
-            ...form
-        });
-    } 
+            ...form,
+        })
+    }
+
+    const onResetForm = () => {
+        setForm(initialForm)
+    }
 
     return {
         ...form,
         form,
         onInputChange,
         onSubmitForm,
-        onFileChange
+        onFileChange,
+        onResetForm
     }
 }
