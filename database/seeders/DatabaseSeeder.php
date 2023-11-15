@@ -18,5 +18,9 @@ class DatabaseSeeder extends Seeder
         $rol = new Rol();
         $rol->nombre = 'admin';
         $rol->save();
+
+        $rol2 = new Rol();
+        $rol2->nombre = 'paciente';
+        $rol2->save();
     }
 }

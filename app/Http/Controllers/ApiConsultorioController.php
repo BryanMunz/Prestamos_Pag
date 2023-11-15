@@ -6,8 +6,6 @@ use App\Models\Consultorio;
 use Illuminate\Http\Request;
 use App\Models\Organizacion;
 use App\Models\InfoProfesional;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 
 class ApiConsultorioController extends Controller
 {

@@ -22,6 +22,9 @@ class User extends Authenticatable
         'email',
         'last_name',
         'password',
+        'fecha_nacimiento',
+        'sexo',
+        'num_telefono',
         'rol_id',
         'wizard'
     ];
@@ -48,5 +51,9 @@ class User extends Authenticatable
     public function rol()
     {
         return $this->belongsTo(Rol::class);
+    }
+
+    public function ejercicios(){
+        return $this->belongsToMany(Ejercicios::class, 'users_ejercicios', 'user_id', 'ejercicio_id')->withPivot('status');
     }
 }
