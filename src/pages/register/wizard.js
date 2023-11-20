@@ -45,7 +45,7 @@ const wizard = () => {
 
         axios
             .post('/api/register_organizacion', res)
-            .then(() => router.push('/registro_planes'))
+            .then(() => router.push('/register/registro_planes'))
             .catch(error => {
                 if (error.response.status !== 422) throw error
 

@@ -1,9 +1,7 @@
-import AppLayout from '@/components/Layouts/AppLayout'
 import AppLayoutRegister from '@/components/Layouts/AppLayoutRegister'
 import ProgressRegistration from '@/components/ProgressRegistration'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 const registro_finalizado = () => {
     const router = useRouter()

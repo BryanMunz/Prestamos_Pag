@@ -1,20 +1,17 @@
-import ApplicationLogo from '@/components/ApplicationLogo'
-import AuthCard from '@/components/AuthCard'
-import Button from '@/components/Button'
+
 import GuestLayout from '@/components/Layouts/GuestLayout'
-import Input from '@/components/Input'
 import InputError from '@/components/InputError'
-import Label from '@/components/Label'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
-import styles from '../style/register.module.css'
+import styles from '@/style/register/register.module.css'
+
 import { useForm } from '@/hooks/useForm'
 
 const Register = () => {
     const { register } = useAuth({
         middleware: 'guest',
-        redirectIfAuthenticated: '/wizard',
+        redirectIfAuthenticated: '/register/wizard',
     })
 
     const [errors, setErrors] = useState([])
@@ -89,7 +86,7 @@ const Register = () => {
                                     <i
                                         className="fa fa-check-circle-o text-info"
                                         aria-hidden="true"></i>{' '}
-                                    Aplicación web y aplicación para móvil para pacientes
+                                    Aplicación web y aplicación móvil para pacientes
                                 </p>
                                 <h4>¿Mis datos estan seguros?</h4>
                                 <p className="small">

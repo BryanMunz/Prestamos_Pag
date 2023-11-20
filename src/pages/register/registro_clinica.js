@@ -1,7 +1,6 @@
-import AppLayout from '@/components/Layouts/AppLayout'
 import ProgressRegistration from '@/components/ProgressRegistration'
 import Head from 'next/head'
-import styles from '../style/register.module.css'
+import styles from '@/style/register/register.module.css'
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/auth'
 import axios from '@/lib/axios'
@@ -24,7 +23,7 @@ const registro_clinica = () => {
     }
 
     const handleClick = () => {
-        router.push('/registro_finalizado')
+        router.push('/register/registro_finalizado')
     }
 
     const [errors, setErrors] = useState([])
@@ -303,11 +302,11 @@ const registro_clinica = () => {
 
                             <div className="col-12 col-lg-6 mb-4">
                                 <label className="form-label">
-                                    Telefono de contacto: *
+                                    Teléfono de contacto: *
                                 </label>
                                 <input
                                     type="number"
-                                    placeholder="Código postal del consultorio"
+                                    placeholder="Teléfono de contacto"
                                     className="form-control"
                                     name="telefono"
                                     value={telefono}
@@ -380,9 +379,20 @@ const registro_clinica = () => {
                                     value={especialidad}
                                     onChange={e => onInputChange(e)}>
                                     <option>Selecciona una Opción</option>
-                                    <option value="fisioterapia">
-                                        Fisioterapia
-                                    </option>
+                                <option value='Sin especialidad'>Sin especialidad</option>
+                                <option value='Neurólogo (a)'>Neurólogo (a)</option>
+                                <option value='Ortopedista'>Ortopedista</option>
+                                <option value='Pediatra'>Pediatra</option>
+                                <option value='Geriatra'>Geriatra</option>
+                                <option value='Médico en rehabilitación'>Médico en rehabilitación</option>
+                                <option value='Fisioterapeuta deportivo'>Fisioterapeuta deportivo</option>
+                                <option value='Fisioterapeuta respiratorio'>Fisioterapeuta respiratorio</option>
+                                <option value='Fisioterapeuta en neurorrehabilitación'>Fisioterapeuta en neurorrehabilitación</option>
+                                <option value='Fisioterapeuta en deglución'>Fisioterapeuta en deglución</option>
+                                <option value='Nutrición'>Nutrición</option>
+                                <option value='Psicología'>Psicología</option>
+                                <option value='Psiquiatría'>Psiquiatría</option>
+                                <option value='Fisioterapia Ortopedica y traumatológica'>Fisioterapia Ortopedica y traumatológica</option>
                                 </select>
                                 <InputError
                                     messages={errors.especialidad}

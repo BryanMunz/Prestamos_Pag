@@ -1,7 +1,6 @@
-import AppLayout from '@/components/Layouts/AppLayout'
 import ProgressRegistration from '@/components/ProgressRegistration'
 import Head from 'next/head'
-import styles from '../style/register.module.css'
+import styles from '@/style/register/register.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
@@ -10,7 +9,7 @@ import AppLayoutRegister from '@/components/Layouts/AppLayoutRegister'
 const registro_planes = () => {
     const router = useRouter()
     const handleClick = () => {
-        router.push('/registro_clinica')
+        router.push('/register/registro_clinica')
     }
     return (
         <AppLayoutRegister>
@@ -27,7 +26,7 @@ const registro_planes = () => {
                     <p className="mt-2">
                         Inicia tu prueba gratis de Biobotix por 21 días y
                         después de su termino suscribete a nuestro plan
-                        semestral o plan anual
+                        mensual o plan anual
                     </p>
                 </div>
                 <div className="px-1 px-sm-5 mt-4">
@@ -59,7 +58,7 @@ const registro_planes = () => {
                                             color="#25A2B7"
                                         />
                                     </div>
-                                    Siguimiento de adherencia de pacientes
+                                    Seguimiento de adherencia de pacientes
                                 </div>
                             </div>
                             <div className="mt-2">

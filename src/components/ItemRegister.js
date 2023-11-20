@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styles from '../style/itemRegister.module.css'
+import styles from '@/style/register/itemRegister.module.css'
 
 const ItemRegister = ({ text, icon, active = false, size = '20px' }) => {
     return (

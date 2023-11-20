@@ -16,6 +16,11 @@ const Dashboard = () => {
     const [newPacientes, setNewPacientes] = useState([])
     const { user } = useAuth({ middleware: 'auth', wizard: true })
     const [paso, setPaso] = useState(1)
+    const [idUser, setIdUser] = useState(null);
+
+    useEffect(() => {
+        setIdUser(user?.id);
+    }, [user]);
 
     const csrf = () => axios.get('/sanctum/csrf-cookie')
 
@@ -32,10 +37,9 @@ const Dashboard = () => {
         setNewPacientes([...pacientes])
     }, [pacientes])
     const updateWizar = async () => {
-        setPaso(3)
-        await csrf()
-        axios.post('/api/user/update/wizard', {id_user: user?.id})
-        .then(res => setPaso(3));
+        setPaso(paso+1)
+        axios.post('/api/user/update/wizard', {id_user: idUser})
+        .then();
     }
     return (
         <AppLayout>

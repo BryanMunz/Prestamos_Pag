@@ -1,0 +1,25 @@
+.title_table {
+    font-size: 0.9rem !important;
+    font-weight: 300 !important;
+    color: #3b3b3b !important;
+}
+
+.name {
+    font-size: 0.9rem !important;
+}
+
+
+
+@media (max-width: 768px) {
+    .title_table {
+        font-size: 0.7rem !important;
+    }
+
+    .name {
+        font-size: 0.8rem !important;
+    }
+    
+    .icon {
+        width: 25px !important;
+    }
+}
