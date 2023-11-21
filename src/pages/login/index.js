@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import styles from '@/style/register.module.css'
+import styles from '@/style/register/register.module.css'
 import { useForm } from '@/hooks/useForm'
 
 const Login = () => {
@@ -55,7 +55,7 @@ const Login = () => {
                                 <ApplicationLogo width="140px" />
                             </div>
                             <h2 className="fs-4 mt-3 mb-5 text-black-50 fw-normal">Iniciar Sesión</h2>
-                            <form onSubmit={ e => onSubmitForm(e) }>
+                            <form onSubmit={e => onSubmitForm(e)}>
                                 {/* Email Address */}
                                 <div className="pt-3">
                                     <Input
