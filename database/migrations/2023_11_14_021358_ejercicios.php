@@ -17,7 +17,13 @@ class Ejercicios extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('imagen', 499);
+            $table->string('video', 499);
             $table->string('descripcion', 899);
+            $table->string('zona', 499);
+            $table->string('dificultad', 499);
+            $table->string('especialidad', 499);
+            $table->string('equipo', 499);
+            $table->string('posicion', 499);
             $table->timestamp('last_used_at')->nullable();
             $table->timestamps();
         });

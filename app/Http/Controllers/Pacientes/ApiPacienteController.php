@@ -18,14 +18,15 @@ class ApiPacienteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = [
             'nombre' => ['required', 'max:255'],
             'apellidos' => ['required', 'max:255'],
             'sexo' => ['required', 'max:1'],
             'fecha_nacimiento' => ['required'],
-            'email' => ['email', 'max:255', 'unique:users'],
-            'telefono' => ['max:11', 'min:9'],
-        ]);
+
+        ];
+        
+        $this->validate($request, $rules); 
 
         User::create([
             'name' => $request->nombre,

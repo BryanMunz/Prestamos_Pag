@@ -22,13 +22,21 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'last_name' => ['required', 'string', 'max:255'],
             'terminos' => ['required', 'accepted']
-        ]);
+        ];
+
+        $message = [
+            'terminos.required' => 'Este campo debe de ser aceptado',
+            'terminos.accepted' => 'Este campo debe de ser aceptado'
+        ];
+
+
+        $this->validate($request, $rules, $message);
 
         $user = User::create([
             'name' => $request->name,

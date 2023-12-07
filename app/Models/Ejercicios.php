@@ -11,6 +11,18 @@ class Ejercicios extends Model
 
     protected $table = 'ejercicios';
 
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'zona',
+        'dificultad',
+        'especialidad',
+        'equipo',
+        'posicion',
+        'imagen',
+        'video',
+    ];
+
     public function users(){
         return $this->belongsToMany(User::class, 'users_ejercicios');
     }

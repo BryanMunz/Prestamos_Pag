@@ -40,10 +40,10 @@ class ApiConsultorioController extends Controller
             $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
 
             // Utiliza el método storeAs para mover la imagen a la carpeta "public"
-            $imagen->storeAs('public', $nombreImagen);
+            $imagen->storeAs('public/logos/', $nombreImagen);
 
             // Genera una URL válida para la imagen
-            $urlImagen = asset('storage/' . $nombreImagen);
+            $urlImagen = asset('storage/logos/' . $nombreImagen);
         }
         $id_organizacion = Organizacion::where('organizacion_id', $request->id_user)->first();
 

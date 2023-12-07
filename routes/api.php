@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiConsultorioController;
 use App\Http\Controllers\ApiOrginizacionController;
+use App\Http\Controllers\Ejercicios\ApiEjercicioController;
 use App\Http\Controllers\Pacientes\ApiPacienteController;
 use App\Http\Controllers\User\ApiUser;
 use App\Models\User;
@@ -34,3 +35,8 @@ Route::middleware(['auth:sanctum'])->get('/pacientes', [ApiPacienteController::c
 Route::middleware(['auth:sanctum'])->delete('/pacientes/delete/{id}', [ApiPacienteController::class, 'delete']);
 
 Route::middleware(['auth:sanctum'])->post('/user/update/wizard', [ApiUser::class, 'update']);
+
+// Ejercicios
+Route::middleware(['auth:sanctum'])->post('/register_ejercicio', [ApiEjercicioController::class, 'store']);
+
+Route::middleware(['auth:sanctum'])->get('/obtener_ejercicios', [ApiEjercicioController::class, 'ejercicios']);
