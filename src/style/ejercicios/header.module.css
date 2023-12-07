@@ -1,0 +1,7 @@
+.header_img {
+    height: 270px;
+    background-image: url('/images/logo/yoga.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top right;
+}

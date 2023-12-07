@@ -52,7 +52,7 @@ const ModalEspecialidad = ({ setPaso }) => {
                                     }`}
                                     for="btn-check-5">
                                     <img
-                                        src="/images/web_defaults/profesional_1.png"
+                                        src="/images/web_defaults/entrenador.png"
                                         className={`w-100 ${styles.img}`}
                                     />
                                     <p className="fw-bold">
@@ -79,7 +79,7 @@ const ModalEspecialidad = ({ setPaso }) => {
                                     }`}
                                     for="btn-check-5">
                                     <img
-                                        src="/images/web_defaults/profesional_2.png"
+                                        src="/images/web_defaults/fisioterapeuta.png"
                                         className={`w-100 ${styles.img}`}
                                     />
                                     <p className="fw-bold">
@@ -102,7 +102,7 @@ const ModalEspecialidad = ({ setPaso }) => {
                                     }`}
                                     for="btn-check-5">
                                     <img
-                                        src="/images/web_defaults/profesional_3.png"
+                                        src="/images/web_defaults/nutricionista.png"
                                         className={`w-100 ${styles.img}`}
                                     />
                                     <p className="fw-bold">Otro</p>

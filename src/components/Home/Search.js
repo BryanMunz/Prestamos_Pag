@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 
-const Search = ({ pacientes, setNewPacientes }) => {
+const Search = ({ pacientes = [], setNewPacientes = () => {} }) => {
     const [search, setSearch] = useState('')
 
     useEffect(() => {

@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 import styles from '@/style/register/register.module.css'
-
 import { useForm } from '@/hooks/useForm'
 
 const Register = () => {
@@ -188,7 +187,7 @@ const Register = () => {
                                     <label className="form-check-label">
                                         Aceptar{' '}
                                         <Link
-                                            href={'/'}
+                                            href={'https://biobotixclinic.com/privacy-politic'}
                                             className={styles.links}>
                                             Terminos y condiciones
                                         </Link>

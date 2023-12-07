@@ -37,18 +37,18 @@ const Navigation = ({ user }) => {
                             <>
                                 <li
                                     className={`nav-item mx-4 px-2 py-1 rounded-pill ${styles.item}`}>
-                                    <a
-                                        className="nav-link active rounded-pill d-inline-block px-4 text-white"
+                                    <Link
+                                        className={`nav-link rounded-pill d-inline-block px-4 ${router.pathname === '/dashboard' ? 'active text-white' : ''}`}
                                         aria-current="page"
-                                        href="#">
+                                        href="/dashboard">
                                         Pacientes
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li
                                     className={`nav-item mx-4 px-2 py-1 rounded-pill ${styles.item}`}>
-                                    <a className="nav-link" href="#">
+                                    <Link className={`nav-link rounded-pill d-inline-block px-4 ${router.pathname === '/ejercicios' ? 'active text-white' : ''}`} href="/ejercicios">
                                         Ejercicios
-                                    </a>
+                                    </Link>
                                 </li>
 
                                 <li

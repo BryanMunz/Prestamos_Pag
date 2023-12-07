@@ -49,7 +49,7 @@ const registro_clinica = () => {
                     'Content-Type': 'multipart/form-data',
                   },
             })
-            .then(() => router.push('/registro_finalizado'))
+            .then(() => router.push('/register/registro_finalizado'))
             .catch(error => {
                 if (error.response.status !== 422) throw error
 
