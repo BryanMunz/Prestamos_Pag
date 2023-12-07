@@ -55,7 +55,7 @@ const Login = () => {
                                 <ApplicationLogo width="140px" />
                             </div>
                             <h2 className="fs-4 mt-3 mb-5 text-black-50 fw-normal">Iniciar Sesión</h2>
-                            <form onSubmit={ e => onSubmitForm(e) }>
+                            <form onSubmit={e => onSubmitForm(e)}>
                                 {/* Email Address */}
                                 <div className="pt-3">
                                     <Input

@@ -4,6 +4,7 @@ import {
     faChildReaching,
 } from '@fortawesome/free-solid-svg-icons'
 import axios from '@/lib/axios'
+import router from 'next/router'
 import styles from '../../style/dashboard/ListPacientes.module.css'
 
 function calcularEdad(fechaNacimiento) {
@@ -27,15 +28,21 @@ function calcularEdad(fechaNacimiento) {
 
 const ItemPaciente = ({ paciente, setPacientes }) => {
     const { id, name, last_name, fecha_nacimiento } = paciente;
- 
+
     const handleDeletePaciente = () => {
         axios.delete(`/api/pacientes/delete/${id}`)
-        .then(response => setPacientes())
-        .catch(error => alert('Hubo un error al elminar el paciente'))
+            .then(response => setPacientes())
+            .catch(error => alert('Hubo un error al elminar el paciente'))
     }
+
+    const toPatientProfile = () => {
+        router.push('/patient_profile/patient_dashboard')
+    }
+
+
     return (
         <tr>
-            <td className={`align-middle text-primary fw-bold text-uppercase ${styles.name}`}>{`${name} ${last_name}`} </td>
+            <td className={`align-middle text-primary fw-bold text-uppercase ${styles.name}`} onClick={toPatientProfile}>{`${name} ${last_name}`}</td>
             <td className='align-middle'>{calcularEdad(fecha_nacimiento)}</td>
             <td className="align-middle text-center align-items-center">
                 <FontAwesomeIcon icon={faBookMedical} width='30px' className={`${styles.icon}`} />
