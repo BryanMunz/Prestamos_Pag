@@ -95,13 +95,19 @@ const Configuracion = () => {
 
     return (
         <AppLayout>
-            <div className="tabs-container">
+            <div className={windowWidth <= 768 ? "tabs-container-column" : "tabs-container"}>
                 <style>
                     {`
                 .tabs-container {
                     display: flex;
                     flex-direction: row;
                     align-items: flex-start; /* Alineación al inicio */
+                }
+
+                .tabs-container-column {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center; /* Alineación al centro horizontal */
                 }
                 
                 .tabs {
@@ -123,6 +129,12 @@ const Configuracion = () => {
                     border-bottom: 2px solid #1B73F9;
                     color: #1B73F9;
                 }
+
+                .tab-content-column {
+                    margin-top: 20px; /* Espacio entre las pestañas y el contenido */
+                    border-top: 1px solid #333; /* Divider vertical */
+                    padding-top: 20px; /* Espacio entre el divider y el contenido */
+                }
                 
                 .tab-content {
                     margin-top: 20px; /* Espacio entre las pestañas y el contenido */
@@ -132,7 +144,7 @@ const Configuracion = () => {
                 `}
                 </style>
                 {renderTabs()}
-                <div className="tab-content">
+                <div className={windowWidth <= 768 ? "tab-content-column" : "tab-content"}>
                     <p>{content}</p>
                 </div>
             </div>
