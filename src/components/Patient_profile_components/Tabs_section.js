@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AjustesPaciente from './AjustesPaciente';
+import EmptyProtocol from './Protocolo';
 
 const Tabs = () => {
     const [windowWidth, setWindowWidth] = useState(
@@ -30,7 +31,7 @@ const Tabs = () => {
                 setContent('Historijilla');
                 break;
             case 'Protocolo':
-                setContent('Protocolirijillo');
+                setContent(<EmptyProtocol />);
                 break;
             case 'Métricas':
                 setContent('Métriquirijilla');
