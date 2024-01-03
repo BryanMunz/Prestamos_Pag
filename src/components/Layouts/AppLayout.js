@@ -2,7 +2,7 @@ import Navigation from '@/components/Layouts/Navigation'
 import { useAuth } from '@/hooks/auth'
 import Head from 'next/head'
 
-const AppLayout = ({ header, children }) => {
+const AppLayout = ({ header, children, flagNav = true }) => {
     const { user } = useAuth({ middleware: 'auth', wizard: true })
     return (
         <div className="min-h-screen bg-gray-100">
@@ -12,7 +12,9 @@ const AppLayout = ({ header, children }) => {
                     rel="icon"
                 />
             </Head>
-            <Navigation user={user}></Navigation>
+            {
+                flagNav ? <Navigation user={user}></Navigation> : ''
+            }
             {/* Page Heading */}
             <header>
                 

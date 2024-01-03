@@ -1,51 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import AjustesPaciente from './AjustesPaciente';
+import React, { useState, useEffect } from 'react'
+import AjustesPaciente from './AjustesPaciente'
+import { Historijilla } from './Historijilla'
 
-const Tabs = () => {
-    const [windowWidth, setWindowWidth] = useState(
-        typeof window !== 'undefined' ? window.innerWidth : 0
-    );
-    const [activeTab, setActiveTab] = useState('Historia clínica');
-    const [content, setContent] = useState('Historijilla');
+const Tabs = ({paciente}) => {
+    const [windowWidth, setWindowWidth] = useState(null)
+    const [activeTab, setActiveTab] = useState('Historia clínica')
+    const [content, setContent] = useState(null)
 
     const handleWindowSizeChange = () => {
-        setWindowWidth(typeof window !== 'undefined' ? window.innerWidth : 0);
-    };
+        setWindowWidth(typeof window !== 'undefined' ? window.innerWidth : 0)
+    }
+
+    useEffect(() => {
+        setWindowWidth(typeof window !== 'undefined' ? window.innerWidth : 0)
+    }, []);
+
+    useEffect(() => {
+        // Actualiza content cuando paciente esté disponible
+        if (paciente) {
+          setContent(<Historijilla paciente={paciente} />);
+        }
+      }, [paciente]);
+
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            window.addEventListener('resize', handleWindowSizeChange);
+            window.addEventListener('resize', handleWindowSizeChange)
 
             return () => {
-                window.removeEventListener('resize', handleWindowSizeChange);
-            };
+                window.removeEventListener('resize', handleWindowSizeChange)
+            }
         }
-    }, []);
+    }, [])
 
-    const changeTab = (tabName) => {
-        setActiveTab(tabName);
+    const changeTab = tabName => {
+        setActiveTab(tabName)
         // Actualizar el contenido según la pestaña seleccionada
         switch (tabName) {
             case 'Historia clínica':
-                setContent('Historijilla');
-                break;
+                setContent(<Historijilla paciente={paciente} />)
+                break
             case 'Protocolo':
-                setContent('Protocolirijillo');
-                break;
+                setContent('Protocolirijillo')
+                break
             case 'Métricas':
-                setContent('Métriquirijilla');
-                break;
+                setContent('Métriquirijilla')
+                break
             case 'Formularios':
-                setContent('Formuliirijillo');
-                break;
+                setContent('Formuliirijillo')
+                break
             case 'Ajustes de paciente':
-                setContent(<AjustesPaciente />);
-                break;
+                setContent(<AjustesPaciente />)
+                break
             default:
-                setContent('');
-                break;
+                setContent('')
+                break
         }
-    };
+    }
 
     const tabs = [
         'Historia clínica',
@@ -53,12 +64,12 @@ const Tabs = () => {
         'Métricas',
         'Formularios',
         'Ajustes de paciente',
-    ];
+    ]
 
-    const handleSelectChange = (event) => {
-        const selectedTab = event.target.value;
-        changeTab(selectedTab);
-    };
+    const handleSelectChange = event => {
+        const selectedTab = event.target.value
+        changeTab(selectedTab)
+    }
 
     const renderTabs = () => {
         if (windowWidth <= 768) {
@@ -66,31 +77,31 @@ const Tabs = () => {
                 <select
                     value={activeTab}
                     onChange={handleSelectChange}
-                    style={{ marginTop: '20px', height: '40px' }}
-                >
-                    {tabs.map((tab) => (
+                    style={{ marginTop: '20px', height: '40px' }}>
+                    {tabs.map(tab => (
                         <option key={tab} value={tab}>
                             {tab}
                         </option>
                     ))}
                 </select>
-            );
+            )
         } else {
             return (
                 <div className="tabs">
-                    {tabs.map((tab) => (
+                    {tabs.map(tab => (
                         <div
                             key={tab}
-                            className={`tab ${activeTab === tab ? 'active' : ''}`}
-                            onClick={() => changeTab(tab)}
-                        >
+                            className={`tab ${
+                                activeTab === tab ? 'active' : ''
+                            }`}
+                            onClick={() => changeTab(tab)}>
                             {tab}
                         </div>
                     ))}
                 </div>
-            );
+            )
         }
-    };
+    }
 
     return (
         <div className="tabs-container">
@@ -128,11 +139,9 @@ const Tabs = () => {
                 `}
             </style>
             {renderTabs()}
-            <div className="tab-content">
-                <p>{content}</p>
-            </div>
+            <div className="tab-content w-100 px-5">{content}</div>
         </div>
-    );
-};
+    )
+}
 
-export default Tabs;
+export default Tabs

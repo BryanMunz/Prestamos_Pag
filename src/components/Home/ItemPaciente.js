@@ -36,13 +36,16 @@ const ItemPaciente = ({ paciente, setPacientes }) => {
     }
 
     const toPatientProfile = () => {
-        router.push('/patient_profile/patient_dashboard')
+        router.push({
+            pathname: '/patient_profile/patient_dashboard',
+            query: { pacienteData: JSON.stringify(paciente) }
+        })
     }
 
 
     return (
         <tr>
-            <td className={`align-middle text-primary fw-bold text-uppercase ${styles.name}`} onClick={toPatientProfile}>{`${name} ${last_name}`}</td>
+            <td className={`align-middle text-primary fw-bold text-uppercase ${styles.name}`} onClick={toPatientProfile} style={{cursor: 'pointer'}}>{`${name} ${last_name}`}</td>
             <td className='align-middle'>{calcularEdad(fecha_nacimiento)}</td>
             <td className="align-middle text-center align-items-center">
                 <FontAwesomeIcon icon={faBookMedical} width='30px' className={`${styles.icon}`} />

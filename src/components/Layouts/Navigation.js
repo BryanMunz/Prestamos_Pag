@@ -3,7 +3,6 @@ import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styles from '../../style/navigation.module.css'
-import DropdownLink from '../DropdownLink'
 
 const Navigation = ({ user }) => {
     const router = useRouter()
@@ -99,6 +98,11 @@ const Navigation = ({ user }) => {
                                     {user?.name}
                                 </a>
                                 <ul className="dropdown-menu">
+                                    <li >
+                                        <Link className="dropdown-item" href="/patient_profile/patient_dashboard">
+                                            Mi perfil
+                                        </Link>
+                                    </li>
                                     <li onClick={logout}>
                                         <a className="dropdown-item" href="#">
                                             Cerrar sessión

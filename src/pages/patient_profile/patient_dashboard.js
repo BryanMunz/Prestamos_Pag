@@ -1,14 +1,27 @@
-import React from 'react';
-import Header from '@/components/Patient_profile_components/Header';
-import Tabs from '@/components/Patient_profile_components/Tabs_section';
+import React, { useEffect, useState } from 'react'
+import Header from '@/components/Patient_profile_components/Header'
+import Tabs from '@/components/Patient_profile_components/Tabs_section'
+import AppLayout from '@/components/Layouts/AppLayout'
+import { useRouter } from 'next/router'
 
 const PatientDashboard = () => {
-    return (
-        <div>
-            <Header />
-            <Tabs />
-        </div>
-    );
-};
+    const router = useRouter()
+    const pacienteDataString = router.query.pacienteData
+    const [paciente, setPaciente] = useState(null)
+    useEffect(() => {
+        if (pacienteDataString) {
+            const pacienteData = JSON.parse(pacienteDataString)
+            setPaciente(pacienteData)
+        }
+    }, [pacienteDataString])
 
-export default PatientDashboard;
+
+    return (
+        <AppLayout flagNav={false}>
+            <Header paciente={paciente} />
+            <Tabs paciente={paciente} /> 
+        </AppLayout>
+    )
+}
+
+export default PatientDashboard

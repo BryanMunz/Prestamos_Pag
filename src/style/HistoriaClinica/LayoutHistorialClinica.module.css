@@ -1,0 +1,24 @@
+.Contenedor {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(1fr, 3);
+    grid-auto-columns: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        'Nav Nav Nav Antecedentes'
+        'Contenido Contenido Contenido Antecedentes'
+        'Contenido Contenido Contenido Antecedentes';
+}
+
+.Nav {
+    grid-area: Nav;
+}
+
+.Contenido {
+    grid-area: Contenido;
+}
+
+.Antecedentes {
+    grid-area: Antecedentes ;
+}
