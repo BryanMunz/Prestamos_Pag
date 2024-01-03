@@ -1,6 +1,15 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 const EmptyProtocol = () => {
+    const router = useRouter();
+
+    const handleNuevoProtocoloClick = () => {
+        // Redirige a la ruta deseada cuando se presiona el botón "Nuevo Protocolo"
+        router.push('/protocolo/steps'); // Reemplaza '/nueva-pantalla' con la ruta correcta
+    };
+
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <button
@@ -19,6 +28,7 @@ const EmptyProtocol = () => {
                     outline: 'none',
                     boxSizing: 'border-box', // Asegura que el ancho incluya padding y borde
                 }}
+                onClick={handleNuevoProtocoloClick} // Llama a la función al hacer clic en el botón
             >
                 Nuevo Protocolo
             </button>
