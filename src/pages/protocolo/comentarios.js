@@ -16,18 +16,15 @@ const ComentariosProtocolo = () => {
 
   return (
     <div className="comentarios-screen">
-      <h1>Comentarios del protocolo</h1>
+      <h1>Escribe los comentarios del protocolo y envíalos a tu paciente.</h1>
       <div className="comentarios-box">
-        <label htmlFor="comentarioText">
-          Escribe los comentarios del protocolo y envíalos a tu paciente.
-        </label>
         <textarea
           id="comentarioText"
           placeholder="Escribe aquí tus comentarios"
           value={comentario}
           onChange={handleComentarioChange}
         />
-        <button onClick={enviarComentario}>Enviar</button>
+        <button onClick={enviarComentario}>Guardar</button>
       </div>
 
       <style jsx>{`

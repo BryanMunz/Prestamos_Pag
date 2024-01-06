@@ -1,5 +1,5 @@
+import ReusableExerciseDosage from '@/components/Protocolo/exercise_dosage_card';
 import { FaClock, FaPlus, FaMinus, FaImage } from 'react-icons/fa';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const ExerciseConfigurationScreen = () => {
 
@@ -8,10 +8,6 @@ const ExerciseConfigurationScreen = () => {
     { id: 'exercise2', title: 'Exercise 2', imageUrl: 'url2' },
     // ... otras tarjetas de ejercicios
   ];
-
-  const onDragEnd = (result) => {
-    // lógica para el final del arrastre, si necesitas alguna
-  };
 
   return (
     <div className="exercise-configuration-screen">
@@ -32,59 +28,8 @@ const ExerciseConfigurationScreen = () => {
         </div>
       </div>
 
-      {/* Contenedor para las tarjetas arrastrables */}
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="exercises">
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={{ marginTop: '20px' }}
-            >
-              {exercises.map((exercise, index) => (
-                <Draggable key={exercise.id} draggableId={exercise.id} index={index}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          marginBottom: '15px',
-                          border: '1px solid #ccc',
-                          borderRadius: '8px',
-                          padding: '8px',
-                        }}
-                      >
-                        <div style={{ marginRight: '12px' }}>
-                          <FaImage style={{
-                            borderRadius: '20%', width: '80px',
-                            height: '80px'
-                          }} />
-                        </div>
-                        <div>
-                          <h4>{exercise.title}</h4>
-                          <div>
-                            <input type="text" placeholder="Sets" style={{ margin: '6px' }} />
-                            <input type="text" placeholder="Repeticiones" style={{ margin: '6px' }} />
-                            <input type="text" placeholder="Hold" style={{ margin: '6px' }} />
-                            <input type="text" placeholder="Descanso" style={{ margin: '6px' }} />
-                            <input type="text" placeholder="Peso (Kg)" style={{ margin: '6px' }} />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      {/* Utiliza ExerciseDosage */}
+      <ReusableExerciseDosage items={exercises} />
 
       <style jsx>{`
         /* Estilos para la pantalla */

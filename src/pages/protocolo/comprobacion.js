@@ -1,6 +1,17 @@
+import ReusableExerciseDosage from '@/components/Protocolo/exercise_dosage_card';
 import React, { useState } from 'react';
+import DuracionScreen from './duracion';
+import ItemsDuracionScreen from '@/components/Protocolo/ItemsDuracion';
 
 const ComprobacionProtocoloScreen = () => {
+
+    const exercises = [
+        { id: 'exercise1', title: 'Exercise 1', imageUrl: 'url1' },
+        { id: 'exercise2', title: 'Exercise 2', imageUrl: 'url2' },
+        // ... otras tarjetas de ejercicios
+    ];
+
+
     const [protocoloGuardado, setProtocoloGuardado] = useState(false);
     const [nombreProtocolo, setNombreProtocolo] = useState('');
     const [comentarios, setComentarios] = useState('');
@@ -24,8 +35,9 @@ const ComprobacionProtocoloScreen = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '100vh',
                 textAlign: 'center',
+                margin: '0 auto',
+                padding: '50px'
             }}
         >
             <h1>Comprueba los elementos del programa de ejercicios.</h1>
@@ -71,6 +83,12 @@ const ComprobacionProtocoloScreen = () => {
                     </div>
                 </div>
             </div>
+
+            <h6>Duración del Programa</h6>
+            <ItemsDuracionScreen />
+            {/* Utiliza ExerciseDosage */}
+            <h6>Dosificación del Programa</h6>
+            <ReusableExerciseDosage items={exercises} />
 
         </div>
     );

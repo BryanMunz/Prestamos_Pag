@@ -22,7 +22,7 @@ const ExerciseSelectionScreen = () => {
     };
 
     return (
-        <div className="continer">
+        <div style={{ textAlign: 'center', margin: '0 auto', padding: '50px' }}>
             <h1>Selecciona los ejercicios que deseas prescribir</h1>
         </div>
     );
