@@ -1,6 +1,5 @@
 import ReusableExerciseDosage from '@/components/Protocolo/exercise_dosage_card';
 import React, { useState } from 'react';
-import DuracionScreen from './duracion';
 import ItemsDuracionScreen from '@/components/Protocolo/ItemsDuracion';
 
 const ComprobacionProtocoloScreen = () => {
@@ -60,7 +59,7 @@ const ComprobacionProtocoloScreen = () => {
                 margin: '20px',
                 width: '100%', // Asegura que el contenedor se expanda al 100% del ancho disponible
             }}>
-                <h6>Nombre de Protocolo</h6>
+                <h5>Nombre de Protocolo</h5>
                 <div style={{ display: 'flex', justifyContent: 'center' }}> {/* Contenedor que controlará el ancho del input */}
                     <input
                         type="text"
@@ -73,7 +72,7 @@ const ComprobacionProtocoloScreen = () => {
                 <div style={{
                     margin: '20px'
                 }} >
-                    <h6>Comentarios</h6>
+                    <h5>Comentarios</h5>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <textarea
                             value={comentarios}
@@ -84,10 +83,10 @@ const ComprobacionProtocoloScreen = () => {
                 </div>
             </div>
 
-            <h6>Duración del Programa</h6>
+            <h5>Duración del Programa</h5>
             <ItemsDuracionScreen />
             {/* Utiliza ExerciseDosage */}
-            <h6>Dosificación del Programa</h6>
+            <h5>Dosificación del Programa</h5>
             <ReusableExerciseDosage items={exercises} />
 
         </div>

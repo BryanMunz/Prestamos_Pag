@@ -23,7 +23,7 @@ const ProtocolCreationTabs = () => {
     { name: 'Detalles de los ejercicios', icon: <FaInfoCircle /> },
     { name: 'Comentarios del protocolo', icon: <FaList /> },
     { name: 'Selección de días', icon: <FaCalendarAlt /> },
-    { name: 'Escalas y cuestionarios', icon: <FaClipboardList /> },
+    //{ name: 'Escalas y cuestionarios', icon: <FaClipboardList /> },
     { name: 'Comprobación final', icon: <FaCheckCircle /> },
   ];
 

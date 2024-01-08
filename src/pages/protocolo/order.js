@@ -69,7 +69,6 @@ const ExerciseOrderScreen = () => {
 
         .info-container {
           display: flex;
-          align-items: center;
           padding: 10px;
           border-radius: 20px;
           margin-top: 20px;

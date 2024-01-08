@@ -16,7 +16,7 @@ const ExerciseConfigurationScreen = () => {
 
       <div className="config-container" style={{ backgroundColor: '#F2F2F2', borderRadius: '20px' }}>
         <p>Descanso entre ejercicios general (min. 5 seg. - max. 60 seg)</p>
-        <div className="time-container" style={{ border: '1px solid #1b73f9', borderRadius: '10px', padding: '10px', color: '#1b73f9', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="time-container" style={{ border: '1px solid #1b73f9', borderRadius: '10px', padding: '15px', color: '#1b73f9', display: 'flex', justifyContent: 'center' }}>
           <span><FaClock size={30} /></span>
           <p>Segundos</p>
           <span className="separator">|</span>
@@ -43,14 +43,12 @@ const ExerciseConfigurationScreen = () => {
 
         .config-container {
           width: 80%;
-          padding: 20px;
+          padding: 15px;
           margin-top: 20px;
         }
 
         .time-container {
           display: flex;
-          align-items: center;
-          border-radius: 10px;
           padding: 10px;
           color: blue;
         }
@@ -66,7 +64,7 @@ const ExerciseConfigurationScreen = () => {
 
         .buttons-container {
           display: flex;
-          align-items: center;
+          justifyContent: 'center'
         }
 
         .buttons-container button {
