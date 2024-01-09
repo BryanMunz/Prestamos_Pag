@@ -9,6 +9,7 @@ use App\Http\Controllers\ApiConsultorioController;
 use App\Http\Controllers\ApiOrginizacionController;
 use App\Http\Controllers\Ejercicios\ApiEjercicioController;
 use App\Http\Controllers\HistoriaClinica\ApiDiagnosticoTerapeutico;
+use App\Http\Controllers\HistoriaClinica\ApiExpliracionFisica;
 use App\Http\Controllers\HistoriaClinica\ApiHistoriaClinica;
 use App\Http\Controllers\HistoriaClinica\ApiMarcha;
 use App\Http\Controllers\HistoriaClinica\ApiMotivos;
@@ -163,6 +164,8 @@ Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_motivos', 
 Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_diagnostico_terapeutico', [ApiDiagnosticoTerapeutico::class, 'store']);
 
 Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_notas_evulucion', [ApiNotasEvolucion::class, 'store']);
+
+Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_exploracion_fisica', [ApiExpliracionFisica::class, 'store']);
 
 Route::middleware(['auth:sanctum'])->get('/historias_clinicas', [ApiHistoriaClinica::class, 'getHistoriasClinicas']);
 
