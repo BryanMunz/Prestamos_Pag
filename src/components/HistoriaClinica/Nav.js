@@ -1,9 +1,33 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
-export const Nav = ({ paciente }) => {
+export const Nav = ({ paciente, handleScroll }) => {
     const router = useRouter()
+    const [buttons, setButtons] = useState({
+        signos_vitales: false,
+        marcha: false,
+        motivos_consultas: false,
+        diagnostico_terapeutico: false,
+        notas_evolucion: false,
+        archivos: false,
+    })
+
+    const handleActive = ({ target }) => {
+        setButtons({
+            ...{
+                signos_vitales: false,
+                marcha: false,
+                motivos_consultas: false,
+                diagnostico_terapeutico: false,
+                notas_evolucion: false,
+                archivos: false,
+            },
+            [target.name]: !buttons[target.name],
+        })
+        handleScroll(target.name)
+    }
     const handleBack = () => {
         router.back()
     }
@@ -13,6 +37,13 @@ export const Nav = ({ paciente }) => {
                 {`
                 .btn_hover:hover{
                     color: #ffffff !important;
+                }
+                .buttons {
+                    border: none;
+                    background-color: #ffffff;
+                }
+                .btn_active {
+                    border-bottom: 3px solid #1b73f9;
                 }
             `}
             </style>
@@ -54,6 +85,56 @@ export const Nav = ({ paciente }) => {
                         />
                     </button>
                 </div>
+            </div>
+            <div className="d-flex justify-content-center">
+                <button
+                    className={`buttons rounded-0 ${
+                        buttons.signos_vitales ? 'btn_active' : ''
+                    }`}
+                    onClick={handleActive}
+                    name="signos_vitales">
+                    Signos Vitales
+                </button>
+                <button
+                    className={`buttons rounded-0 ${
+                        buttons.marcha ? 'btn_active' : ''
+                    }`}
+                    onClick={handleActive}
+                    name="marcha">
+                    Marcha
+                </button>
+                <button
+                    className={`buttons rounded-0 ${
+                        buttons.motivos_consultas ? 'btn_active' : ''
+                    }`}
+                    onClick={handleActive}
+                    name="motivos_consultas">
+                    Motivos de Consulta
+                </button>
+                <button
+                    className={`buttons rounded-0 ${
+                        buttons.diagnostico_terapeutico ? 'btn_active' : ''
+                    }`}
+                    onClick={handleActive}
+                    name="diagnostico_terapeutico">
+                    Diagnostico Terapéutico
+                </button>
+                <button
+                    className={`buttons rounded-0 ${
+                        buttons.notas_evolucion ? 'btn_active' : ''
+                    }`}
+                    onClick={handleActive}
+                    name="notas_evolucion">
+                    Notas Evolución
+                </button>
+                <button
+                    className={`buttons rounded-0 ${
+                        buttons.archivos ? 'btn_active' : ''
+                    }`}
+                    onClick={handleActive}
+                    name="archivos">
+                    Archivo
+                </button>
             </div>
         </>
     )

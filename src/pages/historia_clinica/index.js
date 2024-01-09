@@ -1,4 +1,5 @@
 import { DiagnosticoTerapeutico } from '@/components/HistoriaClinica/DiagnosticoTerapeutico/DiagnosticoTerapeutico'
+import { ExploracionFisica } from '@/components/HistoriaClinica/ExploracionFisica/ExploracionFisica'
 import { MarchaTraslado } from '@/components/HistoriaClinica/MarchaTraslado/MarchaTraslado'
 import { MotivosConsulta } from '@/components/HistoriaClinica/MotivosConsulta/MotivosConsulta'
 import { Nav } from '@/components/HistoriaClinica/Nav'
@@ -19,7 +20,7 @@ const historia_clinica = () => {
     const pacienteDataString = router.query.pacienteData
     const [paciente, setPaciente] = useState(null)
     const [id_historia_clinica, setIdHistoriaClinica] = useState(null)
-    const [historias, setHistorias] = useState(null);
+    const [historias, setHistorias] = useState(null)
     useEffect(() => {
         if (pacienteDataString) {
             const pacienteData = JSON.parse(pacienteDataString)
@@ -38,12 +39,21 @@ const historia_clinica = () => {
         if (id_historia_clinica) {
             axios
                 .get(`/api/historias_clinicas/datos?id=${id_historia_clinica}`)
-                .then(res =>{
+                .then(res => {
                     console.log(res.data)
                     setHistorias(res.data)
                 })
         }
     }, [id_historia_clinica])
+
+    const scrollToSection = sectionId => {
+        const section = document.getElementById(sectionId)
+        console.log(section)
+
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
     return (
         <AppLayout flagNav={false}>
             <div className={`${style.Contenedor}`}>
@@ -53,7 +63,7 @@ const historia_clinica = () => {
                         borderBottom: '2px solid #bcbcbc',
                         borderRight: '1px solid #bcbcbc',
                     }}>
-                    <Nav paciente={paciente} />
+                    <Nav paciente={paciente} handleScroll={scrollToSection} />
                 </div>
                 <div className={`${style.Contenido} px-2`}>
                     <SomatometriaSignosVitales
@@ -65,11 +75,15 @@ const historia_clinica = () => {
                         id_historia_clinica={id_historia_clinica}
                         data={historias?.motivos}
                     />
+                    <ExploracionFisica id_historia={id_historia_clinica}/>
                     <DiagnosticoTerapeutico
                         id_historia_clinica={id_historia_clinica}
                         data={historias?.diagnostico}
                     />
-                    <NotasEvolucion id_historia_clinica={id_historia_clinica} data={historias?.notas} />
+                    <NotasEvolucion
+                        id_historia_clinica={id_historia_clinica}
+                        data={historias?.notas}
+                    />
                     <ResultadoYEstudios />
                 </div>
                 <div className={`${style.Antecedentes}`}>

@@ -1,7 +1,7 @@
 import style from '@/style/HistoriaClinica/InputFile.module.css'
 export const ResultadoYEstudios = () => {
     return (
-        <div class="container mt-5">
+        <div class="container mt-5" id='archivos'>
             <h2 className="fs-6 mb-3">Resultado y Estudio Clínicos</h2>
             <div className="row mt-4">
                 <div className="col">

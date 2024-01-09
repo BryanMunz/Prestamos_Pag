@@ -39,7 +39,7 @@ export const MotivosConsulta = ({ id_historia_clinica, data }) => {
             .catch(e => console.log(e.response))
     }
     return (
-        <div className="container mt-5">
+        <div className="container mt-5" id='motivos_consultas'>
             <ToastContainer />
             <h2 className="fs-6 mb-3">MOTIVOS DE CONSULTA</h2>
             <div className="row justify-content-between">

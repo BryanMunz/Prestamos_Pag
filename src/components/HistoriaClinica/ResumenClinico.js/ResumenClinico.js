@@ -39,7 +39,13 @@ export const ResumenClinico = ({ paciente }) => {
     }
 
     return (
-        <div className="" style={{ borderLeft: '1px solid #bcbcbc' }}>
+        <div
+            className=""
+            style={{
+                borderLeft: '1px solid #bcbcbc',
+                borderBottom: '1px solid #bcbcbc',
+                height: '100vh',
+            }}>
             <h3
                 className="fs-5 py-4 ps-3"
                 style={{ borderBottom: '2px solid #bcbcbc' }}>
