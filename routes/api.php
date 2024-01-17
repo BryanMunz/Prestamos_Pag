@@ -18,6 +18,7 @@ use App\Http\Controllers\HistoriaClinica\ApiSignosVitales;
 use App\Http\Controllers\HistoriaClinica\ApiSomatometria;
 use App\Http\Controllers\HistoriaClinica\ApiTraslado;
 use App\Http\Controllers\Pacientes\ApiPacienteController;
+use App\Http\Controllers\Protocolos\ApiProtocolo;
 use App\Http\Controllers\User\ApiUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -170,3 +171,6 @@ Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_exploracio
 Route::middleware(['auth:sanctum'])->get('/historias_clinicas', [ApiHistoriaClinica::class, 'getHistoriasClinicas']);
 
 Route::middleware(['auth:sanctum'])->get('/historias_clinicas/datos', [ApiHistoriaClinica::class, 'getDatosHistoriaClinicaS']);
+
+// Protocolos
+Route::middleware(['auth:sanctum'])->post('/protocolo/store', [ApiProtocolo::class, 'store']);
