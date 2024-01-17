@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AjustesPaciente from './AjustesPaciente';
 import EmptyProtocol from './Protocolo';
+import MetricasChart from './Metricas/Chart';
 
 const Tabs = () => {
     const [windowWidth, setWindowWidth] = useState(
@@ -34,7 +35,7 @@ const Tabs = () => {
                 setContent(<EmptyProtocol />);
                 break;
             case 'Métricas':
-                setContent('Métriquirijilla');
+                setContent(<MetricasChart />);
                 break;
             case 'Formularios':
                 setContent('Formuliirijillo');
