@@ -109,7 +109,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated, wizard = false } 
             router.push(redirectIfAuthenticated)
         if (middleware === 'auth' && error) logout()
         if(middleware === 'auth' && wizard ) {
-            if(user?.wizard == 0) router.push('/wizard');
+            if(user?.wizard == 0) router.push('/register/wizard');
         }
     }, [user, error])
 

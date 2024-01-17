@@ -4,6 +4,7 @@ import { OptiosExploracionFisica } from './OptiosExploracionFisica'
 import axios from '@/lib/axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export const ExploracionFisica = ({ id_historia }) => {
     const [notas, setNotas] = useState([])
@@ -27,6 +28,12 @@ export const ExploracionFisica = ({ id_historia }) => {
                     theme: 'colored',
                 })
             })
+    }
+
+    const handleDelete = (e) => {
+        const exploracion = notas.filter( nota => nota.title !== e );
+
+        setNotas([...exploracion])
     }
 
     const handleChangeInput = e => {
@@ -68,6 +75,8 @@ export const ExploracionFisica = ({ id_historia }) => {
                                       name={name}
                                       value={opcion[name]}
                                       handleChange={handleChangeInput}
+                                      iconDelete={faTrash}
+                                      handleDelete={handleDelete}
                                   />
                               ))
                             : ''}

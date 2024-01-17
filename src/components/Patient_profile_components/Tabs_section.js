@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import AjustesPaciente from './AjustesPaciente'
+
+
 import { Historijilla } from './Historijilla'
+import React, { useState, useEffect } from 'react';
+import AjustesPaciente from './AjustesPaciente';
+import EmptyProtocol from './Protocolo';
 
 const Tabs = ({paciente}) => {
     const [windowWidth, setWindowWidth] = useState(null)
@@ -41,8 +44,8 @@ const Tabs = ({paciente}) => {
                 setContent(<Historijilla paciente={paciente} />)
                 break
             case 'Protocolo':
-                setContent('Protocolirijillo')
-                break
+                setContent(<EmptyProtocol paciente={paciente}  />);
+                break;
             case 'Métricas':
                 setContent('Métriquirijilla')
                 break

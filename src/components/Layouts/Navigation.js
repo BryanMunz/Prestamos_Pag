@@ -53,11 +53,11 @@ const Navigation = ({ user }) => {
                                 <li
                                     className={`nav-item mx-4 px-2 py-1 rounded-pill ${styles.item}`}>
                                     <Link
-                                        href={'/login'}
-                                        className="nav-link "
-                                        aria-disabled="true">
+                                        className={`nav-link rounded-pill d-inline-block px-4 ${router.pathname === '/configuracion/configuracion' ? 'active text-white' : ''}`}
+                                        href="/configuracion/configuracion">
                                         Configuración
                                     </Link>
+
                                 </li>
                                 <li
                                     className={`nav-item mx-4 px-2 py-1 rounded-pill ${styles.item}`}>

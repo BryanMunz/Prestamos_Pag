@@ -25,12 +25,12 @@ function calcularEdad(fechaNacimiento) {
     return edad
 }
 
-
 const ItemPaciente = ({ paciente, setPacientes }) => {
-    const { id, name, last_name, fecha_nacimiento } = paciente;
+    const { id, name, last_name, fecha_nacimiento } = paciente
 
     const handleDeletePaciente = () => {
-        axios.delete(`/api/pacientes/delete/${id}`)
+        axios
+            .delete(`/api/pacientes/delete/${id}`)
             .then(response => setPacientes())
             .catch(error => alert('Hubo un error al elminar el paciente'))
     }
@@ -38,23 +38,35 @@ const ItemPaciente = ({ paciente, setPacientes }) => {
     const toPatientProfile = () => {
         router.push({
             pathname: '/patient_profile/patient_dashboard',
-            query: { pacienteData: JSON.stringify(paciente) }
+            query: { pacienteData: JSON.stringify(paciente) },
         })
     }
 
-
     return (
         <tr>
-            <td className={`align-middle text-primary fw-bold text-uppercase ${styles.name}`} onClick={toPatientProfile} style={{cursor: 'pointer'}}>{`${name} ${last_name}`}</td>
-            <td className='align-middle'>{calcularEdad(fecha_nacimiento)}</td>
+            <td
+                className={`align-middle text-primary fw-bold text-uppercase ${styles.name}`}
+                onClick={toPatientProfile}
+                style={{ cursor: 'pointer' }}>{`${name} ${last_name}`}</td>
+            <td className="align-middle">{calcularEdad(fecha_nacimiento)}</td>
             <td className="align-middle text-center align-items-center">
-                <FontAwesomeIcon icon={faBookMedical} width='30px' className={`${styles.icon}`} />
+                <FontAwesomeIcon
+                    icon={faBookMedical}
+                    style={{ width: '30px' }}
+                />
             </td>
             <td className="align-middle text-center align-items-center">
-                <FontAwesomeIcon icon={faChildReaching} width='30px' className={`${styles.icon}`} />
+                <FontAwesomeIcon
+                    icon={faChildReaching}
+                    style={{ width: '30px' }}
+                />
             </td>
             <td className="align-middle text-center align-items-center">
-                <button className="btn btn-danger" onClick={handleDeletePaciente} >Eliminar</button>
+                <button
+                    className="btn btn-danger"
+                    onClick={handleDeletePaciente}>
+                    Eliminar
+                </button>
                 <button className="btn btn-outline-danger ms-3">
                     Suspender
                 </button>

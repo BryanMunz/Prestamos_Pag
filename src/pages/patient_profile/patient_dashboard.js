@@ -3,6 +3,7 @@ import Header from '@/components/Patient_profile_components/Header'
 import Tabs from '@/components/Patient_profile_components/Tabs_section'
 import AppLayout from '@/components/Layouts/AppLayout'
 import { useRouter } from 'next/router'
+import { AgregarModal } from '@/components/Protocolo/AgregarProtocolo'
 
 const PatientDashboard = () => {
     const router = useRouter()
