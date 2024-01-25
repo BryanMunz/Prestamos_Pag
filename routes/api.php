@@ -18,6 +18,7 @@ use App\Http\Controllers\HistoriaClinica\ApiSignosVitales;
 use App\Http\Controllers\HistoriaClinica\ApiSomatometria;
 use App\Http\Controllers\HistoriaClinica\ApiTraslado;
 use App\Http\Controllers\Pacientes\ApiPacienteController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Protocolos\ApiProtocolo;
 use App\Http\Controllers\User\ApiUser;
 use App\Models\User;
@@ -174,3 +175,10 @@ Route::middleware(['auth:sanctum'])->get('/historias_clinicas/datos', [ApiHistor
 
 // Protocolos
 Route::middleware(['auth:sanctum'])->post('/protocolo/store', [ApiProtocolo::class, 'store']);
+
+// Payment Module
+Route::middleware(['auth:sanctum'])->post('payments/pay', [PaymentController::class, 'pay'])->name('pay');
+
+Route::middleware(['auth:sanctum'])->get('payments/approval', [PaymentController::class, 'approval'])->name('approval');
+
+Route::middleware(['auth:sanctum'])->get('payments/cancelled', [PaymentController::class, 'cancelled'])->name('cancelled');
