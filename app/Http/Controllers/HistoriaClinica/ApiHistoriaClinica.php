@@ -97,6 +97,9 @@ class ApiHistoriaClinica extends Controller
         $Notas = new ApiNotasEvolucion();
         $notas = $Notas->get($request->id);
 
+        $ExploracionFisica = new ApiExpliracionFisica();
+        $exploracionFisica = $ExploracionFisica->getExploracionFisica($request->id);
+
 
         return response()->json([
             'somatometria' => $somatometria,
@@ -105,7 +108,8 @@ class ApiHistoriaClinica extends Controller
             'traslado' => $traslado,
             'motivos' => $motivos,
             'diagnostico' => $diagnostico,
-            'notas' => $notas
+            'notas' => $notas,
+            'exploracion_fisica' => $exploracionFisica
         ], 200);
     }
 

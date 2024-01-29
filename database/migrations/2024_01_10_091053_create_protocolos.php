@@ -16,7 +16,6 @@ class CreateProtocolos extends Migration
         Schema::create('protocolos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->text('comentarios');
             $table->date('fecha_inicio');
             $table->string('duracion');
             $table->boolean('lunes');

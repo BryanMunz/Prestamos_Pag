@@ -83,6 +83,28 @@ class ApiExpliracionFisica extends Controller
         $diagnostico->save();
 
 
-        return response()->json(['message' => $request->all()], 201);
+        return response()->json(['message' => 'Se registraron correctamente la exploración fisica'], 201);
+    }
+
+    public function getExploracionFisica($id) {
+
+        $exploracionFisica = ExploracionClinica::where('historia_clinica_id', $id)->first();
+
+        return $exploracionFisica;
+    }
+
+    public function deleteContent(Request $request) {
+        $request->validate([
+            'id_historia_clinica' => ['required', 'numeric'],
+            'name' => ['required', 'string']
+        ]);
+
+        $name = $request->name;
+
+        $exploracion = ExploracionClinica::where('historia_clinica_id', $request->id_historia_clinica)->first();
+        $exploracion->$name = null;
+        $exploracion->save();
+
+        return response()->json(['message' => 'Se elimino correctamente'], 200);
     }
 }

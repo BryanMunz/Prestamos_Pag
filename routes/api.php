@@ -18,6 +18,7 @@ use App\Http\Controllers\HistoriaClinica\ApiSignosVitales;
 use App\Http\Controllers\HistoriaClinica\ApiSomatometria;
 use App\Http\Controllers\HistoriaClinica\ApiTraslado;
 use App\Http\Controllers\Pacientes\ApiPacienteController;
+use App\Http\Controllers\Protocolos\ApiComentarios;
 use App\Http\Controllers\Protocolos\ApiProtocolo;
 use App\Http\Controllers\User\ApiUser;
 use App\Models\User;
@@ -172,5 +173,18 @@ Route::middleware(['auth:sanctum'])->get('/historias_clinicas', [ApiHistoriaClin
 
 Route::middleware(['auth:sanctum'])->get('/historias_clinicas/datos', [ApiHistoriaClinica::class, 'getDatosHistoriaClinicaS']);
 
+Route::middleware(['auth:sanctum'])->get('/historias_clinicas/exploracion_fisica', [ApiExpliracionFisica::class, 'getExploracionFisica']);
+
+Route::middleware(['auth:sanctum'])->delete('/historias_clinicas/exploracion_fisica/delete', [ApiExpliracionFisica::class, 'deleteContent']);
+
 // Protocolos
 Route::middleware(['auth:sanctum'])->post('/protocolo/store', [ApiProtocolo::class, 'store']);
+
+Route::middleware(['auth:sanctum'])->post('/protocolo/comentarios/store', [ApiComentarios::class, 'store']);
+
+Route::middleware(['auth:sanctum'])->delete('/protocolo/ejercicio', [ApiProtocolo::class, 'deleteEjercicio']);
+
+Route::middleware(['auth:sanctum'])->get('/protocolo', [ApiProtocolo::class, 'getProtocolo']);
+
+Route::middleware(['auth:sanctum'])->get('/protocolo/comentarios', [ApiComentarios::class, 'getComentario']);
+
