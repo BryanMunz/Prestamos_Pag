@@ -2,7 +2,7 @@ export const Options = ({ handleChange, oldOption, name = 'alergia' }) => {
     return (
         <div className="d-flex">
             <div className="form-check me-3">
-                <label className="form-check-label" for="si">
+                <label className="form-check-label" htmlFor="si">
                     Si
                 </label>
                 <input
@@ -16,7 +16,7 @@ export const Options = ({ handleChange, oldOption, name = 'alergia' }) => {
                 />
             </div>
             <div className="form-check">
-                <label className="form-check-label" for="no">
+                <label className="form-check-label" htmlFor="no">
                     No
                 </label>
                 <input

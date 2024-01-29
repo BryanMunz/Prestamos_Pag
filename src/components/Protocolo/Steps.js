@@ -4,10 +4,7 @@ import {
     FaListAlt,
     FaInfoCircle,
     FaCalendarAlt,
-    FaClipboardList,
     FaList,
-    FaAirbnb,
-    FaArrowCircleUp,
     FaCheckCircle,
 } from 'react-icons/fa'
 import ExerciseOrderScreen from '@/pages/protocolo/order'
@@ -18,7 +15,14 @@ import DuracionScreen from '@/pages/protocolo/duracion'
 import ComentariosProtocolo from '@/pages/protocolo/comentarios'
 import axios from '@/lib/axios'
 
-export const Steps = ({ paciente }) => {
+export const Steps = ({
+    paciente,
+    protocolo,
+    ejercicioProtocolo,
+    ejercicios,
+    setShow,
+    setFlag
+}) => {
     const [activeTab, setActiveTab] = useState('Elige ejercicios')
     const [completedTabs, setCompletedTabs] = useState([])
 
@@ -26,6 +30,12 @@ export const Steps = ({ paciente }) => {
     const [cardsDataSelect, setcardsDataSelect] = useState([])
     const [cardsDataOrder, setcardsDataOrder] = useState([])
     const [cardsDataDetails, setcardsDataDetails] = useState([])
+
+    useEffect(() => {
+        if (ejercicios) {
+            setcardsDataSelect([...ejercicios])
+        }
+    }, [ejercicios])
 
     const [data, setData] = useState({
         nombre: '',
@@ -44,6 +54,24 @@ export const Steps = ({ paciente }) => {
         programas: [],
         id_user: null,
     })
+
+    useEffect(() => {
+        if (protocolo) {
+            setData({
+                ...data,
+                nombre: protocolo?.nombre,
+                fecha_inicio: protocolo?.fecha_inicio,
+                duracion: protocolo?.duracion,
+                Lun: protocolo?.lunes  ? true : false,
+                Mar: protocolo?.martes ? true : false,
+                Mie: protocolo?.miercoles? true : false,
+                Jue: protocolo?.jueves? true : false,
+                Vie: protocolo?.viernes? true : false,
+                Sab: protocolo?.sabado? true : false,
+                Dom: protocolo?.domingo ? true : false,
+            })
+        }
+    }, [])
 
     useEffect(() => {
         if (paciente) {
@@ -147,7 +175,7 @@ export const Steps = ({ paciente }) => {
                     <ComentariosProtocolo setData={setData} />
                 )}
                 {activeTab === 'Selección de días' && (
-                    <DuracionScreen setData={setData} />
+                    <DuracionScreen setData={setData} data={data}  />
                 )}
                 {activeTab === 'Comprobación final' && (
                     <ComprobacionProtocoloScreen
@@ -155,6 +183,9 @@ export const Steps = ({ paciente }) => {
                         data={data}
                         exercisesProp={cardsDataDetails}
                         setCardsDetails={handleChangeCardsDetailts}
+                        paciente={paciente}
+                        setShow={setShow}
+                        setFlag={setFlag}
                     />
                 )}
                 {/* Agrega más condicionales para otros screens */}

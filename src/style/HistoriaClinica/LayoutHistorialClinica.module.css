@@ -1,24 +1,29 @@
 .Contenedor {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat(1fr, 3);
-    grid-auto-columns: 1fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-        'Nav Nav Nav Antecedentes'
-        'Contenido Contenido Contenido Antecedentes'
-        'Contenido Contenido Contenido Antecedentes';
+    display: flex;
 }
 
+
 .Nav {
-    grid-area: Nav;
+    background-color: #ffff;
+    width: 80%;
+    position: sticky;
+    left: 0;
+    top: 0;
 }
 
 .Contenido {
-    grid-area: Contenido;
+    overflow-y: auto;
+    width: 80%;
+}
+
+.DivDiv {
+    width: 20%;
 }
 
 .Antecedentes {
-    grid-area: Antecedentes ;
+    width: 20%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    overflow: hidden;
 }

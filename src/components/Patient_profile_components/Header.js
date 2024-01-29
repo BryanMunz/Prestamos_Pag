@@ -78,7 +78,7 @@ const Header = ({ paciente }) => {
     }
 
     const goBack = () => {
-        router.back() // Navegar hacia atrás usando next/router
+        router.push('/dashboard') // Navegar hacia atrás usando next/router
     }
 
     // Regla @media para ajustar el padding en pantallas pequeñas

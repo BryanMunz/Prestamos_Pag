@@ -2,13 +2,19 @@ import ReusableExerciseDosage from '@/components/Protocolo/exercise_dosage_card'
 import React, { useEffect, useState } from 'react'
 import ItemsDuracionScreen from '@/components/Protocolo/ItemsDuracion'
 import axios from '@/lib/axios'
+import { useRouter } from 'next/router'
 
 const ComprobacionProtocoloScreen = ({
     exercisesProp = [],
     setData,
     data,
     setCardsDetails,
+    paciente,
+    setShow,
+    setFlag
 }) => {
+    const router = useRouter()
+
     const [exercises, setExercises] = useState([])
 
     const [protocoloGuardado, setProtocoloGuardado] = useState(false)
@@ -47,6 +53,12 @@ const ComprobacionProtocoloScreen = ({
         }
     }, [])
 
+    useEffect(() => {
+        if (data?.nombre !== '') {
+            setNombreProtocolo(data?.nombre)
+        }
+    }, [])
+
     const handleGuardar = () => {
         axios
             .post('/api/protocolo/store', {
@@ -54,7 +66,16 @@ const ComprobacionProtocoloScreen = ({
                 nombre: nombreProtocolo,
                 id_user: 2,
             })
-            .then(e => console.log(e))
+            .then(e => {
+                router.push('/patient_profile/patient_dashboard', {
+                    query: {
+                        pacienteData: JSON.stringify(paciente),
+                        protocoloData: JSON.stringify(e.data.protocolo.id),
+                    },
+                })
+                setShow()
+                setFlag( flag => !flag)
+            })
             .catch(error => console.log(error))
     }
 

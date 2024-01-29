@@ -5,18 +5,27 @@ const ExerciseCard = ({ card, setCardsSelect, cardsSelect = [] }) => {
 
     const toggleSelection = () => {
         setIsSelected(!isSelected)
+        addOrDeleteEjercicio(!isSelected)
     }
 
     useEffect(() => {
-        if (isSelected) {
-            setCardsSelect( cards => [...cards, card])
+        setIsSelected(cardsSelect.includes(card))
+    }, [])
+    useEffect(() => {
+        const lastCard = cardsSelect.filter(value => value.id === card.id)
+        if (lastCard.length > 0) setIsSelected(true)
+    }, [cardsSelect])
+
+    const addOrDeleteEjercicio = selected => {
+        if (selected) {
+            setCardsSelect(cards => [...cards, card])
         } else {
             const preCardsSelect = cardsSelect.filter(
                 preCards => preCards?.id !== card.id,
             )
             setCardsSelect(preCardsSelect)
         }
-    }, [isSelected])
+    }
 
     return (
         <div

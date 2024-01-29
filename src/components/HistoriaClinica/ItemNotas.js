@@ -19,7 +19,7 @@ export const ItemNotas = ({
                             icon={iconDelete}
                             className="text-danger"
                             style={{ width: '25px', cursor: 'pointer' }}
-                            onClick={() => handleDelete(title)}
+                            onClick={() => handleDelete(title, name)}
                         />
                     </div>
                 )}

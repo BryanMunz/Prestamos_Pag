@@ -24,10 +24,26 @@ const ExerciseOrderScreen = ({ cardsData = [], setCardsSelect }) => {
     }, [cardsData])
 
     useEffect(() => {
-      setCardsSelect(exercises)
-    }, [exercises]);
+        setCardsSelect(exercises)
+    }, [exercises])
 
-    const onDragEnd = result => {}
+    const onDragEnd = result => {
+        if (!result.destination) {
+            // El usuario soltó el elemento fuera de una zona droppable
+            return
+        }
+
+        const newExercises = Array.from(exercises)
+        const [movedExercise] = newExercises.splice(result.source.index, 1)
+        newExercises.splice(result.destination.index, 0, movedExercise)
+
+        // Actualizar el atributo 'position' basándose en el índice en el nuevo orden
+        newExercises.forEach((exercise, index) => {
+            exercise.position = index + 1
+        })
+
+        setExercises(newExercises)
+    }
 
     return (
         <div className="exercise-order-screen">

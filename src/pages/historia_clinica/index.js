@@ -56,15 +56,15 @@ const historia_clinica = () => {
     }
     return (
         <AppLayout flagNav={false}>
+            <div
+                className={`${style.Nav}`}
+                style={{
+                    borderBottom: '2px solid #bcbcbc',
+                    borderRight: '1px solid #bcbcbc',
+                }}>
+                <Nav paciente={paciente} handleScroll={scrollToSection} />
+            </div>
             <div className={`${style.Contenedor}`}>
-                <div
-                    className={`${style.Nav}`}
-                    style={{
-                        borderBottom: '2px solid #bcbcbc',
-                        borderRight: '1px solid #bcbcbc',
-                    }}>
-                    <Nav paciente={paciente} handleScroll={scrollToSection} />
-                </div>
                 <div className={`${style.Contenido} px-2`}>
                     <SomatometriaSignosVitales
                         id_historia_clinica={id_historia_clinica}
@@ -75,7 +75,10 @@ const historia_clinica = () => {
                         id_historia_clinica={id_historia_clinica}
                         data={historias?.motivos}
                     />
-                    <ExploracionFisica id_historia={id_historia_clinica}/>
+                    <ExploracionFisica
+                        id_historia={id_historia_clinica}
+                        data={historias?.exploracion_fisica}
+                    />
                     <DiagnosticoTerapeutico
                         id_historia_clinica={id_historia_clinica}
                         data={historias?.diagnostico}
@@ -86,6 +89,7 @@ const historia_clinica = () => {
                     />
                     <ResultadoYEstudios />
                 </div>
+                <div className={`${style.DivDiv}`}></div>
                 <div className={`${style.Antecedentes}`}>
                     <ResumenClinico paciente={paciente} />
                 </div>

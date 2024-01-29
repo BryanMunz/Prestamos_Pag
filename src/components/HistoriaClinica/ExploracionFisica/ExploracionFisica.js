@@ -1,16 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ItemNotas } from '../ItemNotas'
 import { OptiosExploracionFisica } from './OptiosExploracionFisica'
 import axios from '@/lib/axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import ShowExploracionFisica from './ShowExploracionFisica'
+import { obtenerDatosExploracion } from '@/lib/utils/obtenerDatos'
 
-export const ExploracionFisica = ({ id_historia }) => {
+export const ExploracionFisica = ({ id_historia, data }) => {
     const [notas, setNotas] = useState([])
     const [opcion, setOpcion] = useState({})
 
+    
+
+    useEffect(() => {
+        if (data) {
+            obtenerDatosExploracion(setNotas, setOpcion, data, notas, opcion);
+        }
+    }, [data])
+
     const handleSubmit = () => {
+        if (!notas.length > 0) return
         axios
             .post('/api/historia_clinica/register_exploracion_fisica', {
                 ...opcion,
@@ -30,10 +41,27 @@ export const ExploracionFisica = ({ id_historia }) => {
             })
     }
 
-    const handleDelete = (e) => {
-        const exploracion = notas.filter( nota => nota.title !== e );
-
+    const handleDelete = (title, name) => {
+        const exploracion = notas.filter(nota => nota.title !== title)
+        const opciones = { ...opcion }
+        const opcionFilter = delete opciones[name]
         setNotas([...exploracion])
+        setOpcion({ ...opcionFilter })
+
+        axios.delete('/api/historias_clinicas/exploracion_fisica/delete', {
+            params: {id_historia_clinica: id_historia, name: name}
+        }).then( e => {
+            toast.success('Se elimino correctamente', {
+                position: 'top-right',
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored',
+            })
+        });
     }
 
     const handleChangeInput = e => {
@@ -51,9 +79,12 @@ export const ExploracionFisica = ({ id_historia }) => {
         }
     }
     const handleChange = (title, name) => {
+        console.log(opcion)
         if (!opcion.hasOwnProperty(name)) {
             setNotas([...notas, { title: title, name: name }])
             setOpcion({ ...opcion, [name]: '' })
+        } else {
+            console.log('existe')
         }
     }
     return (
@@ -69,8 +100,9 @@ export const ExploracionFisica = ({ id_historia }) => {
                     </select>
                     <div className="mt-3">
                         {notas
-                            ? notas.map(({ title, name }) => (
+                            ? notas.map(({ title, name }, index) => (
                                   <ItemNotas
+                                      key={index}
                                       title={title}
                                       name={name}
                                       value={opcion[name]}
@@ -81,7 +113,11 @@ export const ExploracionFisica = ({ id_historia }) => {
                               ))
                             : ''}
                     </div>
-                    <button className='btn btn-primary float-end' onClick={handleSubmit}>Agregar</button>
+                    <button
+                        className="btn btn-primary float-end"
+                        onClick={handleSubmit}>
+                        Agregar
+                    </button>
                 </div>
                 <div className="col-12 col-sm-6">
                     <img src="/images/descargar.jfif" usemap="#image-map" />
@@ -98,7 +134,9 @@ export const ExploracionFisica = ({ id_historia }) => {
                                     'Extremidad_Superior_Derecha_Parte_Frontal',
                                 )
                             }
-                            style={{ cursor: 'pointer' }}
+                            style={{
+                                cursor: 'pointer',
+                            }}
                         />
                         <area
                             alt="Cabeza Parte Frontal"

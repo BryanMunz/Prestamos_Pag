@@ -16,6 +16,7 @@ export const ListHIstoriaClinica = ({ historias = [], paciente }) => {
                         motivo={historia?.motivos}
                         id={historia?.id}
                         paciente={paciente}
+                        key={index}
                     />
                 ))
             )}

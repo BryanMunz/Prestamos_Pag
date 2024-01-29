@@ -11,7 +11,7 @@ export const Options = ({ handleChange, oldOption, name = 'alergia' }) => {
                     onChange={e => handleChange(e.target.value)}
                     checked={oldOption === 'si' ? true : false}
                 />
-                <label className="form-check-label" for="si">
+                <label className="form-check-label" htmlFor="si">
                     Si
                 </label>
             </div>
@@ -25,7 +25,7 @@ export const Options = ({ handleChange, oldOption, name = 'alergia' }) => {
                     onChange={e => handleChange(e.target.value)}
                     checked={oldOption === 'no' ? true : false}
                 />
-                <label className="form-check-label" for="no">
+                <label className="form-check-label" htmlFor="no">
                     No
                 </label>
             </div>

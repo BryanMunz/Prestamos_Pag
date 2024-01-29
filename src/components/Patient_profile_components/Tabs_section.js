@@ -1,11 +1,9 @@
-
-
 import { Historijilla } from './Historijilla'
-import React, { useState, useEffect } from 'react';
-import AjustesPaciente from './AjustesPaciente';
-import EmptyProtocol from './Protocolo';
+import React, { useState, useEffect } from 'react'
+import AjustesPaciente from './AjustesPaciente'
+import EmptyProtocol from './Protocolo'
 
-const Tabs = ({paciente}) => {
+const Tabs = ({ paciente, idProtocolo, setFlag, flag }) => {
     const [windowWidth, setWindowWidth] = useState(null)
     const [activeTab, setActiveTab] = useState('Historia clínica')
     const [content, setContent] = useState(null)
@@ -16,15 +14,18 @@ const Tabs = ({paciente}) => {
 
     useEffect(() => {
         setWindowWidth(typeof window !== 'undefined' ? window.innerWidth : 0)
-    }, []);
+    }, [])
+
+    useEffect(() => {
+        changeTab('Historia clínica')
+    }, [flag])
 
     useEffect(() => {
         // Actualiza content cuando paciente esté disponible
         if (paciente) {
-          setContent(<Historijilla paciente={paciente} />);
+            setContent(<Historijilla paciente={paciente} />)
         }
-      }, [paciente]);
-
+    }, [paciente])
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -38,14 +39,20 @@ const Tabs = ({paciente}) => {
 
     const changeTab = tabName => {
         setActiveTab(tabName)
-        // Actualizar el contenido según la pestaña seleccionada
         switch (tabName) {
             case 'Historia clínica':
                 setContent(<Historijilla paciente={paciente} />)
                 break
             case 'Protocolo':
-                setContent(<EmptyProtocol paciente={paciente}  />);
-                break;
+                setContent(
+                    <EmptyProtocol
+                        paciente={paciente}
+                        idProtocolo={idProtocolo}
+                        setFlag={setFlag}
+                        flag={flag}
+                    />,
+                )
+                break
             case 'Métricas':
                 setContent('Métriquirijilla')
                 break
@@ -142,7 +149,7 @@ const Tabs = ({paciente}) => {
                 `}
             </style>
             {renderTabs()}
-            <div className="tab-content w-100 px-5">{content}</div>
+            <div className="tab-content w-100 px-1 px-sm-5">{content}</div>
         </div>
     )
 }

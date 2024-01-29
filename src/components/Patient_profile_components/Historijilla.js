@@ -22,19 +22,21 @@ export const Historijilla = ({ paciente }) => {
     const [patologias, setPatologias] = useState([])
 
     const getPatologias = () => {
-        axios.get(`/api/antecedentes?id_paciente=${paciente.id}`).then(res => {
+        axios.get(`/api/antecedentes?id_paciente=${paciente?.id}`).then(res => {
             console.log(res.data)
             setAntecedentes(res.data)
         })
         axios
-            .get(`/api/historias_clinicas?id_paciente=${paciente.id}`)
+            .get(`/api/historias_clinicas?id_paciente=${paciente?.id}`)
             .then(res => {
                 setHistorial(res.data)
             })
     }
     useEffect(() => {
-        getPatologias()
-    }, [])
+        if (paciente) {
+            getPatologias()
+        }
+    }, [paciente])
 
     return (
         <div className="container mb-3">
@@ -42,9 +44,9 @@ export const Historijilla = ({ paciente }) => {
                 <div className="col-12 col-sm-6 text-center">
                     <ModalAgregarConsulta paciente={paciente} />
                     <div
-                        className="m-auto mt-4 mb-5 px-3"
+                        className="m-auto mt-4 mb-5 px-3 pb-4"
                         style={{ backgroundColor: '#f9fbfc' }}>
-                        <h2 className="fs-6 text-start ms-5">
+                        <h2 className="fs-6 text-start ms-5 pt-3 pb-2">
                             CONSULTAS INICIADAS
                         </h2>
 
@@ -54,7 +56,7 @@ export const Historijilla = ({ paciente }) => {
                         />
                     </div>
                 </div>
-                <div className="col-12 col-sm-6 border p-0">
+                <div className="col-12 col-sm-6 border p-0 ">
                     <h3
                         className="fs-6 text-start m-0 px-3 py-2 border-bottom"
                         style={{ backgroundColor: '#f9fbfc' }}>
