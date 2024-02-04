@@ -92,7 +92,7 @@ class StripeService
 
 
 
-        if($subscription->status == 'active') {
+        if ($subscription->status == 'active') {
             session()->put('subscriptionId', $subscription->id);
 
             // return redirect()->route(
@@ -103,7 +103,7 @@ class StripeService
             //     ]
             // );
 
-            return 
+            return
                 [
                     'plan' => $request->plan,
                     'subscription_id' => $request->plan,
@@ -112,8 +112,8 @@ class StripeService
 
         $paymentIntent = $subscription->latest_invoice->payment_intent;
 
-        if($paymentIntent->status === 'requires_action') {
-            $clientSecret = $paymentIntentId->client_secret;
+        if ($paymentIntent->status === 'requires_action') {
+            $clientSecret = $paymentIntent->client_secret;
 
             session()->put('subscriptionId', $subscription->id);
 
@@ -143,7 +143,7 @@ class StripeService
             $subscriptionId = session()->get('subscriptionId');
 
             session()->forget('subscriptionId');
-            
+
             return $request->subscription_id == $subscriptionId;
         }
     }
@@ -205,9 +205,9 @@ class StripeService
                     ['price' => $priceId],
                 ],
                 'default_payment_method' => $paymentMethod,
-                'expand' => ['latest_invoice.payment_intent']
+                'expand' => ['latest_invoice.payment_intent'],
             ]
-        )
+        );
     }
 
     public function resolveFactor($currency)
