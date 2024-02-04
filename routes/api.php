@@ -197,3 +197,17 @@ Route::middleware(['auth:sanctum'])->post('payments/pay', [PaymentController::cl
 Route::middleware(['auth:sanctum'])->get('payments/approval', [PaymentController::class, 'approval'])->name('approval');
 
 Route::middleware(['auth:sanctum'])->get('payments/cancelled', [PaymentController::class, 'cancelled'])->name('cancelled');
+
+Route::prefix('subscribe')->name('subscribe.')->group(function () {
+    Route::get('/', 'SubscriptionController@show')
+        ->name('show');
+
+    Route::post('/', 'SubscriptionController@store')
+        ->name('store');
+
+    Route::get('/approval', 'SubscriptionController@approval')
+        ->name('approval');
+
+    Route::get('/cancelled', 'SubscriptionController@cancelled')
+        ->name('cancelled');
+});
