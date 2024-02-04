@@ -23,8 +23,9 @@ class DatabaseSeeder extends Seeder
         $rol2->nombre = 'paciente';
         $rol2->save();
 
-        //Seeders for payment platforms and currecies
+        //Seeders for payment platforms and currencies
         $this->call(PaymentPlatformsTableSeeder::class);
         $this->call(CurrenciesTableSeeder::class);
+        $this->call(PlanSeeder::class);
     }
 }
