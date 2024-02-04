@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ItemsDuracionScreen from '@/components/Protocolo/ItemsDuracion'
 import axios from '@/lib/axios'
 import { useRouter } from 'next/router'
+import { useAppState } from '@/reducer/AppStateContext'
 
 const ComprobacionProtocoloScreen = ({
     exercisesProp = [],
@@ -11,7 +12,9 @@ const ComprobacionProtocoloScreen = ({
     setCardsDetails,
     paciente,
     setShow,
-    setFlag
+    setFlag,
+    url,
+    protocolo
 }) => {
     const router = useRouter()
 
@@ -21,6 +24,7 @@ const ComprobacionProtocoloScreen = ({
     const [nombreProtocolo, setNombreProtocolo] = useState('')
     const [comentarios, setComentarios] = useState('')
     const [fechaInicio, setFechaInicio] = useState('')
+    const { state, dispatch } = useAppState()
 
     const handleGuardarProtocolo = e => {
         setProtocoloGuardado(e.target.checked)
@@ -61,10 +65,11 @@ const ComprobacionProtocoloScreen = ({
 
     const handleGuardar = () => {
         axios
-            .post('/api/protocolo/store', {
+            .post(url, {
                 ...data,
                 nombre: nombreProtocolo,
-                id_user: 2,
+                id_user: paciente?.id,
+                id: protocolo?.id
             })
             .then(e => {
                 router.push('/patient_profile/patient_dashboard', {
@@ -74,7 +79,11 @@ const ComprobacionProtocoloScreen = ({
                     },
                 })
                 setShow()
-                setFlag( flag => !flag)
+                setFlag(flag => !flag)
+                dispatch({
+                    type: 'UPDATE_PROTOCOLO_ID',
+                    payload: e.data.protocolo.id,
+                })
             })
             .catch(error => console.log(error))
     }

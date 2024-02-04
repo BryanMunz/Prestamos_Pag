@@ -85,7 +85,8 @@ export const ButtonsProtocolo = ({
                 protocolo={protocolo}
                 ejercicios={ejercicios}
                 ejercicioProtocolo={ejercicioProtocolo}
-                
+                update={true}
+                paciente={paciente}
             />
             {/* <PDFViewer>
                 <PDF protocolos={ejercicioProtocolo} />

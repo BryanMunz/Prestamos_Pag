@@ -5,6 +5,7 @@ import AppLayout from '@/components/Layouts/AppLayout'
 import { useRouter } from 'next/router'
 import { AgregarModal } from '@/components/Protocolo/AgregarProtocolo'
 import Head from 'next/head'
+import { useAppState } from '@/reducer/AppStateContext'
 
 const PatientDashboard = () => {
     let router = useRouter()
@@ -15,18 +16,11 @@ const PatientDashboard = () => {
     const [paciente, setPaciente] = useState(null)
     const [flag, setFlag] = useState(false)
 
+    const { state } = useAppState();
+    
     useEffect(() => {
-        const obtenerProtocoloData = async () => {
-            const protocoloIdString = router.query.protocoloData
-            if (protocoloIdString) {
-                const id_protocolo = JSON.parse(protocoloIdString)
-                setIdProtocolo(id_protocolo)
-            }
-        }
-
-        // Llama a la función para obtener protocoloData del URL cuando cambia flag
-        obtenerProtocoloData()
-    }, [flag, router.query.protocoloData])
+        if(state.protocoloId) setIdProtocolo(state.protocoloId)
+    }, [state]);
 
     useEffect(() => {
         if (protocoloIdString) {

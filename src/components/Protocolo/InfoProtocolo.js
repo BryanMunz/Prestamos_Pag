@@ -1,6 +1,4 @@
-export const InfoProtocolo = () => {
-    
-
+export const InfoProtocolo = ({ protocolo }) => {
     return (
         <div className="d-flex flex-row justify-content-center">
             <div>
@@ -10,7 +8,7 @@ export const InfoProtocolo = () => {
                 <p
                     className="bg-primary text-white px-3 py-2"
                     style={{ borderRadius: '13px' }}>
-                    08 Sep 2023 - 15 Sep 2023
+                    {protocolo?.duracion} semanas
                 </p>
             </div>
             <div className="px-1 px-sm-4">
@@ -26,16 +24,101 @@ export const InfoProtocolo = () => {
                     Terapia:
                 </p>
                 <div className="d-flex flex-wrap" style={{ maxWidth: '205px' }}>
-                    <p
-                        className=" text-white px-3 py-2 rounded-pill text-center mx-1"
-                        style={{ backgroundColor: '#28c686', width: '90px' }}>
-                        Lunes
-                    </p>
-                    <p
-                        className=" text-white px-3 py-2 rounded-pill text-center mx-1"
-                        style={{ backgroundColor: '#28c686', width: '90px' }}>
-                        Martes
-                    </p>
+                    {protocolo?.lunes === 1 && (
+                        <p
+                            className=" text-white px-3 py-2 rounded-pill text-center mx-1"
+                            style={{
+                                backgroundColor: '#28c686',
+                                width: '90px',
+                            }}>
+                            Lunes
+                        </p>
+
+                    )
+                    
+                    }
+                    {
+                        protocolo?.martes === 1 && (
+                            <p
+                                className=" text-white px-3 py-2 rounded-pill text-center mx-1"
+                                style={{
+                                    backgroundColor: '#28c686',
+                                    width: '90px',
+                                }}>
+                                Martes
+                            </p>
+    
+                        )
+                    }
+                    {
+                        protocolo?.miercoles === 1 && (
+                            <p
+                                className=" text-white px-3 py-2 rounded-pill text-center mx-1"
+                                style={{
+                                    backgroundColor: '#28c686',
+                                    width: '90px',
+                                }}>
+                                Miercoles
+                            </p>
+    
+                        )
+                    } 
+                    {
+                        protocolo?.jueves === 1 && (
+                            <p
+                                className=" text-white px-3 py-2 rounded-pill text-center mx-1"
+                                style={{
+                                    backgroundColor: '#28c686',
+                                    width: '90px',
+                                }}>
+                                Jueves
+                            </p>
+    
+                        )
+                    }
+
+                    {
+                        protocolo?.viernes === 1 && (
+                            <p
+                                className=" text-white px-3 py-2 rounded-pill text-center mx-1"
+                                style={{
+                                    backgroundColor: '#28c686',
+                                    width: '90px',
+                                }}>
+                                Viernes
+                            </p>
+    
+                        )
+                    }
+
+                    {
+                        protocolo?.sabado === 1 && (
+                            <p
+                                className=" text-white px-3 py-2 rounded-pill text-center mx-1"
+                                style={{
+                                    backgroundColor: '#28c686',
+                                    width: '90px',
+                                }}>
+                                Sábado
+                            </p>
+    
+                        )
+                    }
+
+                    {
+                        protocolo?.domingo === 1 && (
+                            <p
+                                className=" text-white px-3 py-2 rounded-pill text-center mx-1"
+                                style={{
+                                    backgroundColor: '#28c686',
+                                    width: '90px',
+                                }}>
+                                Domingo
+                            </p>
+    
+                        )
+                    }
+
                 </div>
             </div>
         </div>

@@ -8,7 +8,8 @@ export const AgregarProtocolo = ({
     show,
     ejercicioProtocolo,
     ejercicios,
-    setFlag
+    setFlag,
+    update = false
 }) => {
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -30,6 +31,7 @@ export const AgregarProtocolo = ({
                         ejercicioProtocolo={ejercicioProtocolo}
                         setShow={handleClose}
                         setFlag={setFlag}
+                        update={update}
                     />
                 </Modal.Body>
             </Modal>

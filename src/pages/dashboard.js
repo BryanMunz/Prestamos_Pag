@@ -43,7 +43,7 @@ const Dashboard = () => {
     return (
         <AppLayout>
             <Head>
-                <title>Laravel - Dashboard</title>
+                <title>FM LABTECH</title>
             </Head>
 
             <div className="py-2">

@@ -21,7 +21,8 @@ export const Steps = ({
     ejercicioProtocolo,
     ejercicios,
     setShow,
-    setFlag
+    setFlag,
+    update,
 }) => {
     const [activeTab, setActiveTab] = useState('Elige ejercicios')
     const [completedTabs, setCompletedTabs] = useState([])
@@ -31,11 +32,7 @@ export const Steps = ({
     const [cardsDataOrder, setcardsDataOrder] = useState([])
     const [cardsDataDetails, setcardsDataDetails] = useState([])
 
-    useEffect(() => {
-        if (ejercicios) {
-            setcardsDataSelect([...ejercicios])
-        }
-    }, [ejercicios])
+    const [url, setUrl] = useState('')
 
     const [data, setData] = useState({
         nombre: '',
@@ -56,28 +53,39 @@ export const Steps = ({
     })
 
     useEffect(() => {
-        if (protocolo) {
-            setData({
-                ...data,
-                nombre: protocolo?.nombre,
-                fecha_inicio: protocolo?.fecha_inicio,
-                duracion: protocolo?.duracion,
-                Lun: protocolo?.lunes  ? true : false,
-                Mar: protocolo?.martes ? true : false,
-                Mie: protocolo?.miercoles? true : false,
-                Jue: protocolo?.jueves? true : false,
-                Vie: protocolo?.viernes? true : false,
-                Sab: protocolo?.sabado? true : false,
-                Dom: protocolo?.domingo ? true : false,
-            })
+        if (update) setUrl('/api/protocolo/update')
+        else setUrl('/api/protocolo/store')
+    }, [update])
+
+    useEffect(() => {
+        if (ejercicios) {
+            setcardsDataSelect([...ejercicios])
         }
-    }, [])
+    }, [ejercicios])
 
     useEffect(() => {
         if (paciente) {
             setData({ ...data, id_user: paciente.id })
         }
     }, [paciente])
+
+    useEffect(() => {
+        if (protocolo) {
+            setData({
+                ...data,
+                nombre: protocolo.nombre || '',
+                fecha_inicio: protocolo?.fecha_inicio || '',
+                duracion: protocolo?.duracion || 10,
+                Lun: protocolo?.lunes === 1 ? true : false,
+                Mar: protocolo?.martes === 1 ? true : false,
+                Mie: protocolo?.miercoles === 1 ? true : false,
+                Jue: protocolo?.jueves === 1 ? true : false,
+                Vie: protocolo?.viernes === 1 ? true : false,
+                Sab: protocolo?.sabado === 1 ? true : false,
+                Dom: protocolo?.domingo === 1 ? true : false,
+            })
+        }
+    }, [protocolo])
 
     const obtenerEjercicios = () => {
         axios
@@ -175,7 +183,7 @@ export const Steps = ({
                     <ComentariosProtocolo setData={setData} />
                 )}
                 {activeTab === 'Selección de días' && (
-                    <DuracionScreen setData={setData} data={data}  />
+                    <DuracionScreen setData={setData} data={data} />
                 )}
                 {activeTab === 'Comprobación final' && (
                     <ComprobacionProtocoloScreen
@@ -186,6 +194,8 @@ export const Steps = ({
                         paciente={paciente}
                         setShow={setShow}
                         setFlag={setFlag}
+                        url={url}
+                        protocolo={protocolo}
                     />
                 )}
                 {/* Agrega más condicionales para otros screens */}

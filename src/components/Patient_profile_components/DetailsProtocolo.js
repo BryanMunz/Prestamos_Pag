@@ -1,7 +1,6 @@
 import { InfoProtocolo } from '../Protocolo/InfoProtocolo'
 import { ButtonsProtocolo } from '../Protocolo/ButtonsProtocolo'
 import { CardsProtocolos } from '../Protocolo/CardsProtocolos'
-import { useRouter } from 'next/router'
 import axios from '@/lib/axios'
 import { useEffect, useState } from 'react'
 
@@ -58,7 +57,7 @@ export const DetailsProtocolo = ({ paciente, id_protocolo }) => {
     return (
         <>
             <h2 className="fs-4 fw-bold mt-4">{protocolo?.nombre}</h2>
-            <InfoProtocolo />
+            <InfoProtocolo protocolo={protocolo} />
             <ButtonsProtocolo
                 protocolo={protocolo}
                 ejercicios={ejercicios}
