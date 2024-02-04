@@ -21,4 +21,9 @@ class ProtocolosEjercicios extends Model
         'protocolo_id',
         'ejercicio_id'
     ];
+
+    public function protocolo()
+    {
+        return $this->belongsTo(Protocolos::class, 'protocolo_id');
+    }
 }

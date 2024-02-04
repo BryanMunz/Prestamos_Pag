@@ -26,4 +26,9 @@ class Protocolos extends Model
         'guardado',
         'user_id'
     ];
+
+    public function ejercicios()
+    {
+        return $this->hasMany(ProtocolosEjercicios::class, 'protocolo_id');
+    }
 }

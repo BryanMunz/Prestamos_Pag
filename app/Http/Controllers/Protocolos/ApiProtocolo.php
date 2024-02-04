@@ -113,6 +113,91 @@ class ApiProtocolo extends Controller
         return response()->json(['protocolo' => $protocolo], 201);
     }
 
+    public function update(Request $request)
+    {
+        $request->validate([
+            'nombre' => ['required', 'string', 'max:250'],
+            'descanso' => ['required', 'numeric'],
+            'comentarios' => ['max:599'],
+            'fecha_inicio' => ['required', 'date'],
+            'duracion' => ['required', 'numeric'],
+            'Lun' => ['required', 'max:10'],
+            'Mar' => ['required', 'max:10'],
+            'Mie' => ['required', 'max:10'],
+            'Jue' => ['required', 'max:10'],
+            'Vie' => ['required', 'max:10'],
+            'Sab' => ['required', 'max:10'],
+            'Dom' => ['required', 'max:10'],
+            'guardar' => ['required'],
+            'programas' => ['required', 'array'],
+            'id' => ['required', 'numeric']
+        ]);
+
+        $usuario = auth()->user();
+        $idUsuario = $usuario->id;
+        $user = User::find($idUsuario);
+
+        // Buscar el protocolo existente
+        $protocolo = Protocolos::find($request->id);
+
+        if (!$protocolo) {
+            return response()->json(['error' => 'Protocolo no encontrado'], 404);
+        }
+
+        // Actualizar los campos del protocolo
+        $protocolo->update([
+            'nombre' => $request->nombre,
+            'fecha_inicio' => $request->fecha_inicio,
+            'duracion' => $request->duracion,
+            'lunes' => $request->Lun,
+            'martes' => $request->Mar,
+            'miercoles' => $request->Mie,
+            'jueves' => $request->Jue,
+            'viernes' => $request->Vie,
+            'sabado' => $request->Sab,
+            'domingo' => $request->Dom,
+            'guardado' => $request->guardar,
+            'user_id' => $idUsuario
+        ]);
+
+        // Eliminar los programas existentes asociados al protocolo
+        $protocolo->ejercicios()->delete();
+
+        // Crear los nuevos programas
+        $programas = $request->programas;
+        foreach ($programas as $key => $programa) {
+            ProtocolosEjercicios::create([
+                'peso' => $programa['peso'],
+                'repeticiones' => $programa['repeticiones'],
+                'sets' => $programa['sets'],
+                'orden' => $programa['position'],
+                'hold' => $programa['hold'],
+                'descanso' => $programa['descanso'],
+                'protocolo_id' => $protocolo->id,
+                'ejercicio_id' => $programa['id']
+            ]);
+        }
+
+        // Actualizar la relación entre usuario y protocolo
+        // ProtocolosUsers::updateOrCreate(
+        //     ['user_id' => $request->id_user, 'protocolo_id' => $protocolo->id],
+        //     ['user_id' => $request->id_user, 'protocolo_id' => $protocolo->id]
+        // );
+
+        // Crear o actualizar los comentarios
+        if ($request->comentarios) {
+            Comentarios::create(
+                [
+                    'protocolo_id' => $protocolo->id,
+                    'comentario' => $request->comentarios
+                ]
+            );
+        }
+
+        return response()->json(['protocolo' => $protocolo], 200);
+    }
+
+
     public function getProtocolo(Request $request)
     {
         $request->validate([

@@ -181,6 +181,7 @@ Route::middleware(['auth:sanctum'])->delete('/historias_clinicas/exploracion_fis
 
 // Protocolos
 Route::middleware(['auth:sanctum'])->post('/protocolo/store', [ApiProtocolo::class, 'store']);
+Route::middleware(['auth:sanctum'])->post('/protocolo/update', [ApiProtocolo::class, 'update']);
 
 Route::middleware(['auth:sanctum'])->post('/protocolo/comentarios/store', [ApiComentarios::class, 'store']);
 
