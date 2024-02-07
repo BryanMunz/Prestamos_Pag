@@ -184,10 +184,11 @@ Route::middleware(['auth:sanctum'])->post('/protocolo/store', [ApiProtocolo::cla
 Route::middleware(['auth:sanctum'])->post('/protocolo/update', [ApiProtocolo::class, 'update']);
 
 Route::middleware(['auth:sanctum'])->post('/protocolo/comentarios/store', [ApiComentarios::class, 'store']);
-
+Route::middleware(['auth:sanctum'])->post('/protocolo/asignar', [ApiProtocolo::class, 'asignarProtocolo']);
 Route::middleware(['auth:sanctum'])->delete('/protocolo/ejercicio', [ApiProtocolo::class, 'deleteEjercicio']);
 
 Route::middleware(['auth:sanctum'])->get('/protocolo', [ApiProtocolo::class, 'getProtocolo']);
+Route::middleware(['auth:sanctum'])->get('/protocolos', [ApiProtocolo::class, 'getProtocolos']);
 
 Route::middleware(['auth:sanctum'])->get('/protocolo/comentarios', [ApiComentarios::class, 'getComentario']);
 

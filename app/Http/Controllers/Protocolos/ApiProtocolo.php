@@ -113,6 +113,7 @@ class ApiProtocolo extends Controller
         return response()->json(['protocolo' => $protocolo], 201);
     }
 
+
     public function update(Request $request)
     {
         $request->validate([
@@ -197,6 +198,40 @@ class ApiProtocolo extends Controller
         return response()->json(['protocolo' => $protocolo], 200);
     }
 
+    public function asignarProtocolo(Request $request)
+    {
+
+        $request->validate([
+            'id_paciente' => ['required', 'numeric'],
+            'id_protocolo' => ['required', 'numeric']
+        ]);
+
+        $protocolo = ProtocolosUsers::where('user_id', $request->id_paciente)->where('protocolo_id', $request->id_protocolo)->get();
+
+        if ($protocolo) {
+            return response()->json(['message' => 'El paciente ya tiene ese protocolo'], 409);
+        }
+
+        ProtocolosUsers::create([
+            'user_id' => $request->id_paciente,
+            'protocolo_id' => $request->id_protocolo
+        ]);
+        return response()->json(['message' => 'Se asigno correctamente']);
+    }
+
+    public function getProtocolos(Request $request)
+    {
+        $data = [];
+        $protocolos = Protocolos::where('guardado', 0)->paginate(10);
+        // $data = array_merge($data, ['last_page' => $protocolos->lastPage()]);
+
+        foreach ($protocolos as $key => $protocolo) {
+            $request->merge(['id_protocolo' => $protocolo->id]);
+            $newData = $this->getProtocolo($request)->original;
+            array_push($data, $newData);
+        }
+        return response()->json(['data' => $data, 'last_page' => $protocolos->lastPage(), 'total' => $protocolos->total()]);
+    }
 
     public function getProtocolo(Request $request)
     {
