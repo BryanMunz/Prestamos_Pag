@@ -21,7 +21,7 @@ export const AgregarProtocolo = ({
                 size="xl"
                 fullscreen="lg-down">
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Nuevo protocolo</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Steps

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { AgregarProtocolo } from '../Protocolo/AgregarProtocolo'
 import { DetailsProtocolo } from './DetailsProtocolo'
+import { AsignarProtocolo } from '../Protocolo/AsignarProtocolo'
 
 const EmptyProtocol = ({ paciente, idProtocolo = null, setFlag, flag }) => {
-    
-
     const handleNuevoProtocoloClick = () => {
         // Redirige a la ruta deseada cuando se presiona el botón "Nuevo Protocolo"
         router.push('/protocolo/steps') // Reemplaza '/nueva-pantalla' con la ruta correcta
     }
 
-    const [show, setShow] = useState(false)
+    const [showNewProtocolo, setShowNewProtocolo] = useState(false)
+    const [showAsigProtocolo, setShowAsigProtocolo] = useState(false)
 
     return (
         <div
@@ -22,7 +22,7 @@ const EmptyProtocol = ({ paciente, idProtocolo = null, setFlag, flag }) => {
             {!idProtocolo && !flag ? (
                 <>
                     <button
-                        onClick={() => setShow(!show)}
+                        onClick={() => setShowNewProtocolo(!showNewProtocolo)}
                         style={{
                             width: '100%',
                             backgroundColor: '#ffffff',
@@ -42,11 +42,12 @@ const EmptyProtocol = ({ paciente, idProtocolo = null, setFlag, flag }) => {
                     </button>
                     <AgregarProtocolo
                         paciente={paciente}
-                        setShow={setShow}
-                        show={show}
+                        setShow={setShowNewProtocolo}
+                        show={showNewProtocolo}
                         setFlag={setFlag}
                     />
                     <button
+                        onClick={() => setShowAsigProtocolo(!showAsigProtocolo)}
                         style={{
                             width: '100%',
                             backgroundColor: '#1B73F9',
@@ -62,6 +63,13 @@ const EmptyProtocol = ({ paciente, idProtocolo = null, setFlag, flag }) => {
                         }}>
                         Asignar Protocolo Guardado
                     </button>
+                    <AsignarProtocolo
+                        show={showAsigProtocolo}
+                        setShow={setShowAsigProtocolo}
+                        paciente={paciente}
+                        setFlag={setFlag}
+                        setShowCrear={setShowNewProtocolo}
+                    />
                     <div
                         style={{
                             width: '100%',
@@ -96,7 +104,10 @@ const EmptyProtocol = ({ paciente, idProtocolo = null, setFlag, flag }) => {
                     </div>
                 </>
             ) : (
-                <DetailsProtocolo paciente={paciente} id_protocolo={idProtocolo} />
+                <DetailsProtocolo
+                    paciente={paciente}
+                    id_protocolo={idProtocolo}
+                />
             )}
         </div>
     )

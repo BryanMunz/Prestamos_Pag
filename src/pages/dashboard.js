@@ -43,7 +43,7 @@ const Dashboard = () => {
     return (
         <AppLayout>
             <Head>
-                <title>FM LABTECH</title>
+                <title>BIOBOTIX CLINIC</title>
             </Head>
 
             <div className="py-2">
