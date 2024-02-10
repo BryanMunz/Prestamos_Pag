@@ -1,0 +1,10 @@
+.conteiner_ejercicio {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 200px;
+    max-height: 250px;
+}
+
+.img_ejercicio {
+    max-height: 130px;
+}

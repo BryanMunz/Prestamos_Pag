@@ -3,7 +3,7 @@ import axios from '@/lib/axios'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
+export const useAuth = ({ middleware, redirectIfAuthenticated, wizard = false } = {}) => {
     const router = useRouter()
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
@@ -28,6 +28,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             .post('/register', props)
             .then(() => mutate())
             .catch(error => {
+                console.log(error);
                 if (error.response.status !== 422) throw error
 
                 setErrors(error.response.data.errors)
@@ -107,6 +108,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         )
             router.push(redirectIfAuthenticated)
         if (middleware === 'auth' && error) logout()
+        if(middleware === 'auth' && wizard ) {
+            if(user?.wizard == 0) router.push('/register/wizard');
+        }
     }, [user, error])
 
     return {

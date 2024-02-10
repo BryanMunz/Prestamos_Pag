@@ -1,26 +1,74 @@
+import Filtro from '@/components/Home/Filtro'
+import ListPacientes from '@/components/Home/ListPacientes'
+import ModalEspecialidad from '@/components/Home/ModalEspecialidad'
+import ModalLograr from '@/components/Home/ModalLograr'
+import MyModal from '@/components/Home/MyModal'
+import Search from '@/components/Home/Search'
 import AppLayout from '@/components/Layouts/AppLayout'
+import { useAuth } from '@/hooks/auth'
+import axios from '@/lib/axios'
+
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
 
 const Dashboard = () => {
+    const [pacientes, setPacientes] = useState([])
+    const [newPacientes, setNewPacientes] = useState([])
+    const { user } = useAuth({ middleware: 'auth', wizard: true })
+    const [paso, setPaso] = useState(1)
+    const [idUser, setIdUser] = useState(null)
+
+    useEffect(() => {
+        setIdUser(user?.id)
+    }, [user])
+
+    const csrf = () => axios.get('/sanctum/csrf-cookie')
+
+    const getPacientes = (order = 'asc_nombre', filter = 'sin_plan') => {
+        axios
+            .get(`/api/pacientes?order=${order}&filter=${filter}`)
+            .then(res => {
+                setPacientes(res.data)
+            })
+    }
+
+    useEffect(() => getPacientes(), [])
+    useEffect(() => {
+        setNewPacientes([...pacientes])
+    }, [pacientes])
+    const updateWizar = async () => {
+        setPaso(paso + 1)
+        axios.post('/api/user/update/wizard', { id_user: idUser }).then()
+    }
     return (
-        <AppLayout
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
-                </h2>
-            }>
+        <AppLayout>
             <Head>
-                <title>Laravel - Dashboard</title>
+                <title>BIOBOTIX CLINIC</title>
             </Head>
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">
-                            You're logged in!
-                        </div>
-                    </div>
-                </div>
+            <div className="py-2">
+                {user?.wizard === 1 ? (
+                    paso === 1 ? (
+                        <ModalEspecialidad setPaso={setPaso} />
+                    ) : (
+                        <ModalLograr
+                            setPaso={setPaso}
+                            updateWizard={updateWizar}
+                        />
+                    )
+                ) : (
+                    ''
+                )}
+                <MyModal handleNewPaciente={getPacientes}></MyModal>
+                <Search
+                    pacientes={pacientes}
+                    setNewPacientes={setNewPacientes}></Search>
+                <Filtro
+                    setPacientes={setPacientes}
+                    getPacientes={getPacientes}></Filtro>
+                <ListPacientes
+                    pacientes={newPacientes}
+                    getPacientes={getPacientes}></ListPacientes>
             </div>
         </AppLayout>
     )

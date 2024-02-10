@@ -1,0 +1,29 @@
+.Contenedor {
+    display: flex;
+}
+
+
+.Nav {
+    background-color: #ffff;
+    width: 80%;
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+
+.Contenido {
+    overflow-y: auto;
+    width: 80%;
+}
+
+.DivDiv {
+    width: 20%;
+}
+
+.Antecedentes {
+    width: 20%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    overflow: hidden;
+}
