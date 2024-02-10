@@ -20,7 +20,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'last_name',
         'password',
+        'fecha_nacimiento',
+        'sexo',
+        'num_telefono',
+        'rol_id',
+        'wizard'
     ];
 
     /**
@@ -41,4 +47,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class);
+    }
+
+    public function ejercicios()
+    {
+        return $this->belongsToMany(Ejercicios::class, 'users_ejercicios', 'user_id', 'ejercicio_id')->withPivot('status');
+    }
+
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
+    public function hasActiveSuscription()
+    {
+        return optional($this->subscription)->isActive() ?? false;
+    }
 }
