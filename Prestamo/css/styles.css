@@ -1,0 +1,66 @@
+@import "slider.css";
+@import "footer.css";
+
+/*ATM*/
+i.fa-chevron-right{
+    margin-top: .3em;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #78a5d1;
+    margin-top: 18px;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffff;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #44dae0;
+}
+
+.conte{
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.t{
+    height: 50px;
+}
+
+.ali{
+    text-align: center;
+}
+/*End ATM*/
+
+/*Tema Menu*/
+.logo{
+    width: 70px;
+    height: 70px;
+    margin-left: 20px;
+}
+
+.navbar{
+    background-color: #78a5d1 !important;
+	border-color: #78a5d1;
+}
+
+header {
+  background-color: #f1f1f1;
+  padding: 30px;
+  text-align: center;
+}
+
+
+#navbar a {
+	margin-top: 10px;
+  color: #f2f2f2;
+}
+
+
+#navbar a:hover {
+    background-color: #44dae0;
+    color: white;
+}
+/*End Tema Menu*/
+
