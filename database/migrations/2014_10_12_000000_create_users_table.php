@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->smallInteger('wizard')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->boolean('eliminado')->default(false);
             $table->rememberToken();
             $table->timestamps();
 

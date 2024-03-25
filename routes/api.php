@@ -17,6 +17,7 @@ use App\Http\Controllers\HistoriaClinica\ApiNotasEvolucion;
 use App\Http\Controllers\HistoriaClinica\ApiSignosVitales;
 use App\Http\Controllers\HistoriaClinica\ApiSomatometria;
 use App\Http\Controllers\HistoriaClinica\ApiTraslado;
+use App\Http\Controllers\HistoriaClinica\ApiResultadoyEstudios;
 use App\Http\Controllers\Pacientes\ApiPacienteController;
 
 use App\Http\Controllers\Protocolos\ApiComentarios;
@@ -170,6 +171,12 @@ Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_diagnostic
 Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_notas_evulucion', [ApiNotasEvolucion::class, 'store']);
 
 Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_exploracion_fisica', [ApiExpliracionFisica::class, 'store']);
+
+Route::middleware(['auth:sanctum'])->post('/historia_clinica/register_resultados_y_estudios', [ApiResultadoyEstudios::class, 'store']);
+
+Route::middleware(['auth:sanctum'])->get('/historia_clinica/{id}/resultados_y_estudios', [ApiResultadoyEstudios::class, 'getByHistoriaClinica']);
+
+Route::middleware(['auth:sanctum'])->delete('/historia_clinica/delete_archivo/{id}', [ApiResultadoyEstudios::class, 'deleteArchivo']);
 
 Route::middleware(['auth:sanctum'])->get('/historias_clinicas', [ApiHistoriaClinica::class, 'getHistoriasClinicas']);
 

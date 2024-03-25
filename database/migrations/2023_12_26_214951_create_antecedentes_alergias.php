@@ -15,7 +15,7 @@ class CreateAntecedentesAlergias extends Migration
     {
         Schema::create('antecedentes_alergias', function (Blueprint $table) {
             $table->id();
-            $table->string('alergias', 3)->nullable();
+            $table->string('alergia', 3)->nullable();
             $table->timestamps();
         });
     }

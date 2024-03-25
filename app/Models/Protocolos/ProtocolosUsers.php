@@ -13,6 +13,12 @@ class ProtocolosUsers extends Model
 
     protected $fillable = [
         'user_id',
-        'protocolo_id'
+        'protocolo_id',
+        'estatus'
     ];
+
+    public function protocolo()
+    {
+        return $this->hasMany(Protocolos::class, 'protocolo_id');
+    }
 }

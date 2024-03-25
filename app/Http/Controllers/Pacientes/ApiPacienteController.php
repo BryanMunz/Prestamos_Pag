@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pacientes;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TrainingMail;
 use App\Models\Antecedentes\Alergias\AntecedentesAlergias;
 use App\Models\Antecedentes\Antecedentes;
 use App\Models\Antecedentes\Gineco\CancerUterino;
@@ -34,6 +35,9 @@ use App\Models\Antecedentes\Patologicos\Traumatismo;
 use App\Models\Antecedentes\Peritanales\Peritanales;
 use App\Models\User;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class ApiPacienteController extends Controller
 {
@@ -53,8 +57,19 @@ class ApiPacienteController extends Controller
             'sexo' => ['required', 'max:1'],
             'fecha_nacimiento' => ['required'],
         ];
-        
-        $this->validate($request, $rules); 
+
+        $this->validate($request, $rules);
+
+        $user = auth()->user();
+
+        $input = '123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ';
+
+        $input_length = strlen($input);
+        $random_string = '';
+        for ($i = 0; $i < 8; $i++) {
+            $random_character = $input[mt_rand(0, $input_length - 1)];
+            $random_string .= $random_character;
+        }
 
         $paciente = User::create([
             'name' => $request->nombre,
@@ -64,12 +79,14 @@ class ApiPacienteController extends Controller
             'num_telefono' => $request->telefono,
             'sexo' => $request->sexo,
             'rol_id' => 2,
-            'wizard' => 1
+            'wizard' => 1,
+            'password' => $random_string,
+            'user_id' => $user->id
         ]);
 
 
         Antecedentes::create([
-            'paciente_id' => $paciente->id, 
+            'paciente_id' => $paciente->id,
             'antecedentes_alergias_id' => $this->createAlergias(),
             'antecedentes_patologicos_id' => $this->createPatologicos(),
             'antecedentes_no_patologicos_id' => $this->createNoPatologicos(),
@@ -88,9 +105,19 @@ class ApiPacienteController extends Controller
             return response()->json(['error' => 'Registro no encontrado'], 404);
         }
 
-        $paciente->delete();
+        $paciente->eliminado = true;
+        $paciente->save();
 
         return response()->json(['mensaje' => 'Registro eliminado con éxito']);
+    }
+
+    public function getPaciente(Request $request)
+    {
+        $request->validate(['id_paciente' => ['required', 'numeric']]);
+
+        $paciente = User::find($request->id_paciente);
+
+        return response()->json(['paciente' => $paciente]);
     }
 
     /**
@@ -103,6 +130,7 @@ class ApiPacienteController extends Controller
      */
     public function getPacientes(Request $request)
     {
+        $user = auth()->user();
         $order = $request->order;
         $filter = $request->filter;
         switch ($order) {
@@ -128,7 +156,7 @@ class ApiPacienteController extends Controller
                 break;
         }
 
-        $pacientes = \App\Models\User::where('rol_id', 2)
+        $pacientes = \App\Models\User::where('rol_id', 2)->where('eliminado', false)->where('user_id', $user->id)
             ->orderBy($orderByField, $orderDirection)->with('ejercicios')
             ->get();
 
@@ -185,12 +213,14 @@ class ApiPacienteController extends Controller
         return $filterPaciente;
     }
 
-    private function createAlergias() {
+    private function createAlergias()
+    {
         $antecedentesAlergias = AntecedentesAlergias::create([]);
         return $antecedentesAlergias->id;
-    }   
+    }
 
-    private function createPatologicos() {
+    private function createPatologicos()
+    {
         $hipertension = Hipertension::create([]);
         $hospitalizacionPrevia = HospitalizacionPrevia::create([]);
         $cirugisaPrevias = CirugiasPrevias::create([]);
@@ -221,7 +251,8 @@ class ApiPacienteController extends Controller
         return $antecedentesPatologicos->id;
     }
 
-    public function createNoPatologicos() {
+    public function createNoPatologicos()
+    {
         $actividadFisica = ActividadFisica::create([]);
         $tabaquismo = Tabaquismo::create([]);
         $alcoholismo = Alcoholismo::create([]);
@@ -240,7 +271,8 @@ class ApiPacienteController extends Controller
 
         return $antecedentesNoPatologicos->id;
     }
-    private function createGineco() {
+    private function createGineco()
+    {
         $embarazo = Embarazos::create([]);
         $menarca = Menarca::create([]);
         $cancer_uterino = CancerUterino::create([]);
@@ -258,8 +290,80 @@ class ApiPacienteController extends Controller
         return $antecedentesGineco->id;
     }
 
-    private function createPeritanales() {
+    private function createPeritanales()
+    {
         $antecedentesPeritanales = Peritanales::create([]);
         return $antecedentesPeritanales->id;
+    }
+
+    public function sendMessage(Request $resquest, $id)
+    {
+        $paciente = User::where('id', '=', $id)->first();
+        $user = auth()->user();
+
+        if ($paciente->num_telefono != null) {
+            $headers = [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer EAAKq4ezuZBB0BAI99yTOCaJxiG2HXAoHliJH9Uf81wEYbioWrYHcwdciuWhEZBJrTgUgontPDZAk5nR3qoIIPjp5bZAUnq4a4sNHSvVfWNm0MjwgaS5ZBstwF6GQVSPT3onpCFAMNwNovcUTi4HtT7pBKYhVcvVp3nTYsN400wTWkdJ5GIIyH'
+            ];
+
+            $client = new GuzzleClient([
+                'headers' => $headers
+            ]);
+
+            $body = '{
+                "messaging_product": "whatsapp",
+                "to": "+52' . $paciente->num_telefono . '",
+                "type": "template",
+                "template": {
+                    "name": "access_code",
+                    "language": {
+                        "code": "es_MX"
+                    },
+                    "components": [{
+                        "type": "body",
+                        "parameters": [
+                                {
+                                    "type": "text",
+                                    "text": "Profesional en rehabilitación ' . $user->name . '",
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "' . \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format('Y') . '"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "' . $paciente->password . '"
+                                }
+                        ]
+                    }]
+                }
+            }';
+
+            try {
+                $r = $client->request('POST', 'https://graph.facebook.com/v14.0/102167069293071/messages', [
+                    'body' => $body
+                ]);
+                // $response = $r->getBody()->getContents();
+            } catch (\Throwable $th) {
+                return response()->json(['message' => $th->getMessage()]);
+            }
+        }
+
+        return response()->json(['message' => "Se envio correctamente el mensaje"]);
+    }
+
+    public function sendEmail(Request $request, $id)
+    {
+        $paciente = User::where('id', '=', $id)->first();
+        $usuario = auth()->user();
+        $idUsuario = $usuario->id;
+        $user = User::find($idUsuario);
+
+        if ($paciente->email != null) {
+            Mail::to($paciente->email)->queue(new TrainingMail($paciente, $user));
+        }
+
+        return response()->json(['message' => "Se envio correctamente el correo"]);
     }
 }

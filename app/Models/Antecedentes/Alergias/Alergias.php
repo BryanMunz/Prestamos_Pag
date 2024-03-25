@@ -14,6 +14,11 @@ class Alergias extends Model
     protected $fillable = [
         'nombre_alergia',
         'otras_alergias',
-        'antecedentes_alergias'
+        'antecedentes_alergias_id'
     ];
+
+    public function Antecedente()
+    {
+        return $this->belongsTo(AntecedentesAlergias::class);
+    }
 }

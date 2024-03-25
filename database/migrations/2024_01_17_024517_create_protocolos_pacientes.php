@@ -16,6 +16,7 @@ class CreateProtocolosPacientes extends Migration
         Schema::create('protocolos_pacientes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->text('estatus')->nullable();
         });
     }
 

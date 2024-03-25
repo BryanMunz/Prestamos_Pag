@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Protocolos;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Pacientes\ApiPacienteController;
+use App\Mail\TrainingMail;
 use App\Models\Consultorio;
 use App\Models\Ejercicios;
 use App\Models\InfoProfesional;
@@ -13,7 +15,10 @@ use App\Models\Protocolos\ProtocolosEjercicios;
 use App\Models\Protocolos\ProtocolosUsers;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class ApiProtocolo extends Controller
 {
@@ -84,22 +89,35 @@ class ApiProtocolo extends Controller
 
         $programas = $request->programas;
 
+
         foreach ($programas as $key => $programa) {
-            ProtocolosEjercicios::create([
-                'peso' => $programa['peso'],
-                'repeticiones' => $programa['repeticiones'],
-                'sets' => $programa['sets'],
-                'orden' => $programa['position'],
-                'hold' => $programa['hold'],
-                'descanso' => $programa['descanso'],
-                'protocolo_id' => $protocolo->id,
-                'ejercicio_id' => $programa['id']
-            ]);
+            if (
+                array_key_exists('peso', $programa) &&
+                array_key_exists('repeticiones', $programa) &&
+                array_key_exists('sets', $programa) &&
+                array_key_exists('position', $programa) &&
+                array_key_exists('hold', $programa) &&
+                array_key_exists('descanso', $programa) &&
+                array_key_exists('id', $programa)
+            ) {
+
+                ProtocolosEjercicios::create([
+                    'peso' => $programa['peso'],
+                    'repeticiones' => $programa['repeticiones'],
+                    'sets' => $programa['sets'],
+                    'orden' => $programa['position'],
+                    'hold' => $programa['hold'],
+                    'descanso' => $programa['descanso'],
+                    'protocolo_id' => $protocolo->id,
+                    'ejercicio_id' => $programa['id']
+                ]);
+            }
         }
 
         ProtocolosUsers::create([
             'user_id' => $request->id_user,
-            'protocolo_id' => $protocolo->id
+            'protocolo_id' => $protocolo->id,
+            'estatus' => 'activo'
         ]);
 
         if ($request->comentarios) {
@@ -109,8 +127,17 @@ class ApiProtocolo extends Controller
             ]);
         }
 
+        $paciente = User::find($request->id_user);
+        if ($paciente->num_telefono != null) {
+            $apiPaciente = new ApiPacienteController;
+            $apiPaciente->sendMessage($request, $request->id_user);
+        }
 
-        return response()->json(['protocolo' => $protocolo], 201);
+        if ($paciente->email != null) {
+            Mail::to($paciente->email)->queue(new TrainingMail($paciente, $user));
+        }
+
+        return response()->json(['protocolo' => $protocolo, 'message' => 'Se agrego correctamente'], 201);
     }
 
 
@@ -167,16 +194,18 @@ class ApiProtocolo extends Controller
         // Crear los nuevos programas
         $programas = $request->programas;
         foreach ($programas as $key => $programa) {
-            ProtocolosEjercicios::create([
-                'peso' => $programa['peso'],
-                'repeticiones' => $programa['repeticiones'],
-                'sets' => $programa['sets'],
-                'orden' => $programa['position'],
-                'hold' => $programa['hold'],
-                'descanso' => $programa['descanso'],
-                'protocolo_id' => $protocolo->id,
-                'ejercicio_id' => $programa['id']
-            ]);
+            if (isset($programa['position'])) {
+                ProtocolosEjercicios::create([
+                    'peso' => $programa['peso'],
+                    'repeticiones' => $programa['repeticiones'],
+                    'sets' => $programa['sets'],
+                    'orden' => $programa['position'],
+                    'hold' => $programa['hold'],
+                    'descanso' => $programa['descanso'],
+                    'protocolo_id' => $protocolo->id,
+                    'ejercicio_id' => $programa['id']
+                ]);
+            }
         }
 
         // Actualizar la relación entre usuario y protocolo
@@ -208,35 +237,60 @@ class ApiProtocolo extends Controller
 
         $protocolo = ProtocolosUsers::where('user_id', $request->id_paciente)->where('protocolo_id', $request->id_protocolo)->get();
 
-        if ($protocolo) {
-            return response()->json(['message' => 'El paciente ya tiene ese protocolo'], 409);
+        if (!$protocolo->isEmpty()) {
+            return response()->json(['message' => $protocolo], 409);
         }
 
         ProtocolosUsers::create([
             'user_id' => $request->id_paciente,
-            'protocolo_id' => $request->id_protocolo
+            'protocolo_id' => $request->id_protocolo,
+            'estatus' => 'activo'
         ]);
-        return response()->json(['message' => 'Se asigno correctamente']);
+
+        $usuario = auth()->user();
+        $idUsuario = $usuario->id;
+        $user = User::find($idUsuario);
+
+        $paciente = User::find($request->id_paciente);
+        if ($paciente->num_telefono != null) {
+            $apiPaciente = new ApiPacienteController;
+            $apiPaciente->sendMessage($request, $request->id_paciente);
+        }
+
+        if ($paciente->email != null) {
+            Mail::to($paciente->email)->queue(new TrainingMail($paciente, $user));
+        }
+
+        return response()->json(['message' => 'Se asigno correctamente', 'protocolo' => $paciente], 201);
     }
 
     public function getProtocolos(Request $request)
     {
         $data = [];
-        $protocolos = Protocolos::where('guardado', 0)->paginate(10);
-        // $data = array_merge($data, ['last_page' => $protocolos->lastPage()]);
+        $protocolos = Protocolos::with('ejercicios')->where('guardado', 0)->paginate(10);
 
-        foreach ($protocolos as $key => $protocolo) {
-            $request->merge(['id_protocolo' => $protocolo->id]);
-            $newData = $this->getProtocolo($request)->original;
-            array_push($data, $newData);
+        // Agregar la información de paginación al array de datos
+        $data['last_page'] = $protocolos->lastPage();
+        $data['total'] = $protocolos->total();
+
+        // Convertir los protocolos a un array
+        $protocolosArray = $protocolos->items();
+
+        // Convertir los ejercicios asociados de cada protocolo en arrays
+        foreach ($protocolosArray as &$protocolo) {
+            $protocolo['ejercicios'] = $protocolo->ejercicios->toArray();
         }
-        return response()->json(['data' => $data, 'last_page' => $protocolos->lastPage(), 'total' => $protocolos->total()]);
+
+        $data['protocolos'] = $protocolosArray;
+
+        // Devuelve la respuesta JSON con los datos y la información de paginación
+        return response()->json($data);
     }
 
     public function getProtocolo(Request $request)
     {
         $request->validate([
-            'id_protocolo' => ['required', 'numeric']
+            'id_paciente' => ['required', 'numeric']
         ]);
 
         $user = auth()->user();
@@ -252,7 +306,14 @@ class ApiProtocolo extends Controller
         }
 
 
-        $protocolo = Protocolos::find($request->id_protocolo);
+
+        $protocoloUsuario = ProtocolosUsers::where('user_id', $request->id_paciente)->where('estatus', 'activo')->first();
+
+        if (empty($protocoloUsuario)) return response()->json(['message' => 'El paciente no tiene un protocolo o un protocolo activo'], 204);
+
+        $protocolo = Protocolos::find($protocoloUsuario->protocolo_id);
+        // $protocolo = $protocoloEjercicios->protocolo();
+
 
         $dias = [];
         if ($protocolo->lunes)  array_push($dias, 'Monday');
@@ -267,7 +328,7 @@ class ApiProtocolo extends Controller
 
         $fechasDias = $this->obtenerDiasConDuracion($protocolo->fecha_inicial, $protocolo->duracion);
 
-        $protocolo_ejercicio = ProtocolosEjercicios::where('protocolo_id', $request->id_protocolo)->get();
+        $protocolo_ejercicio = ProtocolosEjercicios::where('protocolo_id', $protocolo->id)->get();
 
         $ejercicios = [];
         $ejercicios2 = [];
@@ -304,8 +365,10 @@ class ApiProtocolo extends Controller
                 'consultorio' => $consultorio,
                 'organizacion' => $organizacion,
                 'fechas' => $fechas,
-                'dias' => $fechasDias
-            ]
+                'dias' => $fechasDias,
+                'protocolo_usuario' => $protocoloUsuario
+            ],
+            200
         );
     }
 
@@ -367,5 +430,18 @@ class ApiProtocolo extends Controller
         }
 
         return $dias;
+    }
+
+    public function updateEstatus(Request $request)
+    {
+        $request->validate(['id' => ['required', 'numeric']]);
+
+        $protocoloPaciente = ProtocolosUsers::find($request->id);
+
+        $protocoloPaciente->estatus = 'finalizado';
+
+        $protocoloPaciente->save();
+
+        return response()->json(['message' => 'Se finalizo correctamente']);
     }
 }

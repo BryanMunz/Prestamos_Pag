@@ -102,6 +102,9 @@ class ApiExpliracionFisica extends Controller
         $name = $request->name;
 
         $exploracion = ExploracionClinica::where('historia_clinica_id', $request->id_historia_clinica)->first();
+        if(!$exploracion) {
+            return response()->json(['message' => 'No se encontro el registro'], 200);
+        }
         $exploracion->$name = null;
         $exploracion->save();
 

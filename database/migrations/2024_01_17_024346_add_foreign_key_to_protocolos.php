@@ -15,7 +15,7 @@ class AddForeignKeyToProtocolos extends Migration
     {
         Schema::table('protocolos', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('protocolos');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -27,7 +27,7 @@ class AddForeignKeyToProtocolos extends Migration
     public function down()
     {
         Schema::table('protocolos', function (Blueprint $table) {
-            $table->dropForeign(['user_id']); 
+            $table->dropForeign(['user_id']);
             $table->dropColumn('user_id');
         });
     }

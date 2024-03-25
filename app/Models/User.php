@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Protocolos\Protocolos;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,7 +27,8 @@ class User extends Authenticatable
         'sexo',
         'num_telefono',
         'rol_id',
-        'wizard'
+        'wizard',
+        'user_id'
     ];
 
     /**
@@ -57,6 +59,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Ejercicios::class, 'users_ejercicios', 'user_id', 'ejercicio_id')->withPivot('status');
     }
+
+    public function protocolos()
+    {
+        return $this->belongsToMany(Protocolos::class, 'protocolos_pacientes', 'user_id', 'protocolo_id')->withPivot('estatus');
+    }
+
 
     public function subscription()
     {

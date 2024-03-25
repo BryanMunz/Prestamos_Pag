@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Rol;
+use Ejercicios;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentPlatformsTableSeeder::class);
         $this->call(CurrenciesTableSeeder::class);
         $this->call(PlanSeeder::class);
+        $this->call(EjerciciosSeeder::class);
     }
 }

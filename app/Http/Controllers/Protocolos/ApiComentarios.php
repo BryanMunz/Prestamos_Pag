@@ -36,9 +36,16 @@ class ApiComentarios extends Controller
     {
         $request->validate(['protocolo_id' => ['required', 'numeric']]);
 
+        // Establecer el idioma a español
+        Carbon::setLocale('es');
+
         $comentarios = Comentarios::where('protocolo_id', $request->protocolo_id)->get();
         foreach ($comentarios as $comentario) {
-            $comentario->formatted_date = Carbon::parse($comentario->created_at)->format('F d Y, g:i a');
+            // Formatear la fecha con día en número y la primera letra del día en mayúscula
+            $formattedDate = Carbon::parse($comentario->created_at)->isoFormat('dddd D MMMM YYYY, h:mm A');
+            $formattedDate = ucfirst($formattedDate); // Capitalizar la primera letra del día
+            $formattedDate = str_replace('-', '', $formattedDate); // Eliminar los guiones
+            $comentario->formatted_date = $formattedDate;
         }
 
         return response()->json(['comentarios' => $comentarios]);

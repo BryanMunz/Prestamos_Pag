@@ -9,5 +9,8 @@ class AntecedentesAlergias extends Model
 {
     use HasFactory;
     protected $table = 'antecedentes_alergias';
-
+    public function alergias()
+    {
+        return $this->hasMany(Alergias::class);
+    }
 }

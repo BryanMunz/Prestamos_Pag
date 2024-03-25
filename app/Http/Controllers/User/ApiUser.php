@@ -16,7 +16,7 @@ class ApiUser extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request)
+    public function updateWizard(Request $request)
     {
         $request->validate([
             'id_user' => ['required']
@@ -29,4 +29,28 @@ class ApiUser extends Controller
 
         return response()->json(['message' => 'Paciente creado'], 201);
     }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'id_user' => ['required', 'numeric'],
+            'nombre' => ['required', 'string', 'max:255'],
+            'apellidos' => ['required', 'string', 'max:255'],
+            'fechaNacimiento' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
+            'telefono' => ['string','nullable', 'max:10']
+        ]);
+
+        $user = User::find($request->id_user);
+        $user->name = $request->nombre;
+        $user->last_name = $request->apellidos;
+        $user->fecha_nacimiento = $request->fechaNacimiento;
+        $user->email = $request->email;
+        $user->num_telefono = $request->telefono;
+        $user->save();
+
+
+        return response()->json(['message' => 'Paciente actualizado correctamente'], 201);
+    }
+
 }
